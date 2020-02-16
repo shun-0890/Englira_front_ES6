@@ -1,0 +1,67 @@
+[
+	{
+		"talking_id": 1,
+		"name": "今日のこと",
+		"name_phonetic": "きょう",
+		"name_phonetic_info": [
+			"0,1"
+		]
+	},
+	{
+		"talking_id": 2,
+		"name": "未来のこと",
+		"name_phonetic": "みらい",
+		"name_phonetic_info": [
+			"0,1"
+		]
+	},
+	{
+		"talking_id": 3,
+		"name": "学校のこと",
+		"name_phonetic": "がっこう",
+		"name_phonetic_info": [
+			"0,1"
+		]
+	},
+	{
+		"talking_id": 4,
+		"name": "お家のこと",
+		"name_phonetic": "うち",
+		"name_phonetic_info": [
+			"1,1"
+		]
+	},
+	{
+		"talking_id": 5,
+		"name": "相手のこと",
+		"name_phonetic": "あいて",
+		"name_phonetic_info": [
+			"0,1"
+		]
+	},
+	{
+		"talking_id": 6,
+		"name": "遊びのこと",
+		"name_phonetic": "あそ",
+		"name_phonetic_info": [
+			"0,0"
+		]
+	},
+	{
+		"talking_id": 7,
+		"name": "世の中のこと",
+		"name_phonetic": "よ,なか",
+		"name_phonetic_info": [
+			"0,0",
+			"2,2"
+		]
+	},
+	{
+		"talking_id": 8,
+		"name": "その他",
+		"name_phonetic": "た",
+		"name_phonetic_info": [
+			"2,2"
+		]
+	}
+]

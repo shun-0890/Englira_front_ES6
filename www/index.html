@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/jquery/jquery-1.12.4.min.js"></script>
+  <!--<script src="/../node_modules/monaca-lib/src/monaca.js"></script>-->
+  <!--<script src="lib/jquery/jquery.js"></script>-->
+  <!--<script src="lib/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+  <!--本番
+  <script src="js/top.js"></script>
+  <!--<script src="js/config.js"></script>
+  <script src="js/common.js"></script>-->
+  <!-- 動作確認 -->
+  <script src="lib/js/top.js"></script>
+  <script src="lib/js/common.js"></script>
+</head>
+
+<body>
+
+<div id="main_frame">
+
+<p class="loading_page">
+  <img class="top_img" src="img/top.png">
+</p>
+
+<div class="top_eikaiwa">
+  <p id="top_eikaiwa_mongon" class="top_transition">どのペアで<ruby>英会話<rt>えいかいわ</rt></ruby>しますか？</p>
+</div>
+<div class="top_role">
+  <img id="top_left_img" class="top_transition" src="img/mother_1.png">
+  <img id="top_right_img" class="top_transition" src="img/boy_1.png">
+</div>
+<div class="top_next top_transition">
+  <!--<p id="top_next_mongon">クリックするとアイコンを変更できます</p>-->
+  <div id="talk_start_button" class="top_start_outer">
+    <!--<img id="talk_start_button" class="top_transition" src="img/start.png">-->
+    <div class="top_start_inner">はじめる</div>
+    <div class="top_start_inner_border"></div>
+  </div>
+</div>
+<!--
+<div class="top_transition">
+  <div id="talk_start_button" class="top_start_outer">
+    <!--<img id="talk_start_button" class="top_transition" src="img/start.png">
+    <div class="top_start_inner">はじめる</div>
+    <div class="top_start_inner_border"></div>
+  </div>
+</div>
+-->
+<!--
+<div class="top_start_outer_border">
+</div>
+-->
+
+</div>
+
+<div class="footer"><p>広告欄</p><div>
+
+<!-- firebase SDK -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-database.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDPC1R27_BHCGKzSroNxUjkoeKG5k82Jkg",
+    authDomain: "englira-beta.firebaseapp.com",
+    databaseURL: "https://englira-beta.firebaseio.com",
+    projectId: "englira-beta",
+    storageBucket: "englira-beta.appspot.com",
+    messagingSenderId: "374028337021",
+    appId: "1:374028337021:web:87e662ce68569279885614",
+    measurementId: "G-9RTSC746YP"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var analytics = firebase.analytics();
+  var sounds = firebase.storage();
+  var database = firebase.database();
+  //var Monaca = require('monaca-lib').Monaca;
+  //var monaca = new Monaca();
+</script>
+
+</body>
+
+</html>

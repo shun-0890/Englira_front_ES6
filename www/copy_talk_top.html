@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/jquery/jquery-1.12.4.min.js"></script>
+  <!--<script src="lib/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+  <script src="lib/js/common.js"></script>
+  <script src="lib/js/talk_main.js"></script>
+  <script src="lib/js/talk_top.js"></script>
+  <script src="lib/js/question_detail.js"></script>
+  <script src="lib/js/answer_select.js"></script>
+  <script src="lib/js/answer_detail.js"></script>
+</head>
+
+<body>
+
+<div id="main_frame">
+
+<!-- 会話カテゴリ選択画面 -->
+  <div class="talk_top_role">
+    <img id="talk_top_img" class="top_transition" src="">
+  </div>
+
+  <div class="talk_category_block top_transition">
+    <p id="talk_top_up">
+    </p>
+    <p id="talk_top_down">
+    </p>
+    <div id="category_table_box">
+      <table id="category_table">
+      </table>
+    </div>
+  </div>
+
+<!-- 質問選択画面 -->
+  <div class="question_select_block talk_transition">
+    <p id="talk_select_up">
+    </p>
+    <p id="talk_select_down">
+    </p>
+    <div id="select_table_box">
+      <table id="question_select_table" class="select_table">
+      </table>
+    </div>
+  </div>
+
+  <!-- 質問詳細画面 -->
+  <div class="question_detail_block question_transition">
+    <div id="question_table_box">
+      <table id="question_table">
+      </table>
+      <div class="question_start">
+        <img id="question_img" src="">
+        <img id="question_start_img">
+      </div>
+    </div>
+  </div>
+
+  <!-- 回答選択画面 -->
+  <div class="answer_select_block answer_select_transition">
+    <div class="answer_top_role">
+      <img id="answer_top_img" src="">
+    </div>
+    <div class="answer_select_desc">
+      <p id="answer_select_up">
+      </p>
+      <p id="answer_select_down">
+      </p>
+      <div id="select_table_box">
+        <table id="answer_select_table" class="select_table">
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回答詳細選択画面 -->
+  <div class="answer_detail_select_block answer_detail_select_transition">
+    <div class="answer_detail_select_desc">
+      <p id="answer_detail_select">
+      </p>
+      <div id="select_word_table_box">
+        <table id="select_word_table">
+        </table>
+        <div class="answer_detail_select_text">
+          <p id="answer_detail_select_word">
+          </p>
+        </div>
+        <div class="answer_detail_select_role">
+          <img id="answer_select_detail_img" src="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回答詳細画面 -->
+  <div class="answer_detail_block answer_detail_transition">
+    <div id="answer_table_box">
+      <table id="answer_table">
+      </table>
+      <div class="answer_detail_role">
+        <img id="answer_detail_img" src="">
+      </div>
+      <div class="one_point_start">
+        <img id="one_point_start_img" src="">
+      </div>
+    </div>
+  </div>
+
+  <!-- ワンポイント画面 -->
+  <div class="one_point_block one_point_transition">
+    <div class="one_point_text">
+      <p id="one_point_top">
+      </p>
+    </div>
+    <div id="one_point_question_table_box">
+      <table id="one_point_question_table">
+      </table>
+      <table id="one_point_answer_table">
+      </table>
+      <div class="restart">
+        <img id="restart_img" src="">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer"><div>
+
+</body>
+
+</html>

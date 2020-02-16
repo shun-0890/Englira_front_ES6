@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+  <script src="lib/jquery/jquery-1.12.4.min.js"></script>
+  <!--<script src="lib/jquery/jquery.js"></script>-->
+  <script src="lib/vendor/jquery.mCustomScrollbar.min.js"></script>
+  <!--<script src="lib/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+  <!-- 本番  
+  <script src="js/common.js"></script>
+  <script src="js/talk_main.js"></script>
+  <script src="js/talk_top.js"></script>
+  <script src="js/question_detail.js"></script>
+  <script src="js/answer_select.js"></script>
+  <script src="js/answer_detail.js"></script>-->
+
+  <!-- 動作確認 -->
+  <script src="lib/js/common.js"></script>
+  <script src="lib/js/talk_main.js"></script>
+  <script src="lib/js/talk_top.js"></script>
+  <script src="lib/js/question_detail.js"></script>
+  <script src="lib/js/answer_select.js"></script>
+  <script src="lib/js/answer_detail.js"></script>
+
+</head>
+
+<body>
+
+<div id="main_frame">
+
+<!-- 戻るボタン -->
+  <div class="back_button">
+    <p class="back_text">
+    もどる
+    </p>
+  </div>
+
+<!-- 会話カテゴリ選択画面 -->
+  <div class="talk_top_role">
+    <img id="talk_top_img" class="role_transition" src="">
+  </div>
+
+  <div class="talk_category_block top_transition">
+  </div>
+
+<!-- 質問選択画面 -->
+  <div class="question_select_block talk_transition">
+  </div>
+
+  <!-- 質問詳細画面 -->
+  <div class="question_detail_block question_transition">
+  </div>
+
+  <!-- 回答選択画面 -->
+  <div class="answer_select_block answer_select_transition">
+  </div>
+
+  <!-- 回答詳細選択画面 -->
+  <div class="answer_detail_select_block answer_detail_select_transition">
+  </div>
+
+  <!-- 回答詳細画面 -->
+  <div class="answer_detail_block answer_detail_transition">
+  </div>
+
+  <!-- ワンポイント画面 -->
+  <div class="one_point_block one_point_transition">
+  </div>
+
+</div>
+
+<div class="footer"><p>広告欄</p><div>
+
+<!-- firebase SDK -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-storage.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDPC1R27_BHCGKzSroNxUjkoeKG5k82Jkg",
+    authDomain: "englira-beta.firebaseapp.com",
+    databaseURL: "https://englira-beta.firebaseio.com",
+    projectId: "englira-beta",
+    storageBucket: "englira-beta.appspot.com",
+    messagingSenderId: "374028337021",
+    appId: "1:374028337021:web:87e662ce68569279885614",
+    measurementId: "G-9RTSC746YP"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var analytics = firebase.analytics();
+  var sounds = firebase.storage();
+</script>
+
+</body>
+
+</html>
