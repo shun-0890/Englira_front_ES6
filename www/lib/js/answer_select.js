@@ -12,17 +12,32 @@ class AnswerSelect {
   * 質問内容選択時
   */
   answerStart() {
-    // 空にする処理
-    this.common.emptyParts(GROBAL.answer_select.value.question_detail_block);
-    this.common.hideParts(GROBAL.question_detail.value.transition);
-    // 質問内容セット
-    this.setQuestionText();
-    // 画像と文言セット
-    this.setWhoAnswer();
-    // 回答選択テーブル作成
-    this.setAnswerTable();
-    // 表示変更
-    this.common.changeParts(GROBAL.answer_select.value.transition_first);
+    // 対象の子質問情報を取得してからパーツ表示
+    let that = this;
+    that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    that.common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let child_key = that.common.talkingId + "_" + that.common.questionId;
+      let child_records_tran    = db.transaction("t_child_records", "readwrite");
+      let child_records_store   = child_records_tran.objectStore("t_child_records");
+      let get_child_info = child_records_store.get(child_key);
+      get_child_info.onsuccess = function (e) {
+        if (e.target.result !== undefined) {
+          that.common.answerRecords = e.target.result.records.split(',');
+        }
+        // 空にする処理
+        that.common.emptyParts(GROBAL.answer_select.value.question_detail_block);
+        that.common.hideParts(GROBAL.question_detail.value.transition);
+        // 質問内容セット
+        that.setQuestionText();
+        // 画像と文言セット
+        that.setWhoAnswer();
+        // 回答選択テーブル作成
+        that.setAnswerTable();
+        // 表示変更
+        that.common.changeParts(GROBAL.answer_select.value.transition_first);
+      }
+    }
   }
 
   /**
@@ -38,7 +53,7 @@ class AnswerSelect {
       '<img id="question_top_img" src="">' + 
       '</div>' +
       '<div class="right_table_text">' +
-        common_var.this_selected_question.question_text_ja +
+        this.common.selectedQuestion.question_text_ja +
       '</div>' +
       '</td>' +
       '</tr>' +
@@ -88,27 +103,37 @@ class AnswerSelect {
   * 回答選択テーブル作成
   */
   setAnswerTable () {
+    let that = this;
     $.ajax({
       url: 'lib/json/answer_base_' + this.common.questionId + '.json',
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-        common_var.this_answer_list = data;
+        that.common.answerList = data;
       },
       error: function(data) {
         console.log("error");
       },
       complete: function(data) {
-        for (var i = 0; i < common_var.this_answer_list.length; i++) {
-          if (common_var.this_answer_list[i].select_text == " ") {
+        for (var i = 0; i < that.common.answerList.length; i++) {
+          let class_name = "new";
+          
+          for (let j = 0; j < that.common.answerRecords.length; j++) {
+            if (that.common.answerList[i].answer_id == that.common.answerRecords[j]) {
+              class_name = "done";
+              break;
+            }
+          }
+
+          if (that.common.answerList[i].select_text == " ") {
             $(GROBAL.answer_select.element.answer_select_table).append(
               '<tr>' +
-              '<td class="answer_select_button" answer_id="' + common_var.this_answer_list[i].answer_id + '" answer_type="no_text">' + 
+              '<td class="answer_select_button ' + class_name + '" answer_id="' + that.common.answerList[i].answer_id + '" answer_type="no_text">' + 
                 '<p class="answer_front">' + 
-                common_var.this_answer_list[i].answer_text_front_ja + 
+                that.common.answerList[i].answer_text_front_ja + 
                 '</p>' +
                 '<p class="answer_rear">' + 
-                common_var.this_answer_list[i].answer_text_rear_ja + 
+                that.common.answerList[i].answer_text_rear_ja + 
                 '</p>' +
                 '</td>' +
               '</tr>'
@@ -116,21 +141,20 @@ class AnswerSelect {
           } else {
             $(GROBAL.answer_select.element.answer_select_table).append(
               '<tr>' +
-              '<td class="answer_select_button" answer_id="' + common_var.this_answer_list[i].answer_id + '" answer_type="normal">' + 
+              '<td class="answer_select_button ' + class_name + '" answer_id="' + that.common.answerList[i].answer_id + '" answer_type="normal">' + 
                 '<p class="answer_front">' + 
-                common_var.this_answer_list[i].answer_text_front_ja + 
+                that.common.answerList[i].answer_text_front_ja + 
                 '</p>' +
                 '<p class="question_mark_text">' + 
-                common_var.this_answer_list[i].select_text + 
+                that.common.answerList[i].select_text + 
                 '</p>' +
                 '<p class="answer_rear">' + 
-                common_var.this_answer_list[i].answer_text_rear_ja + 
+                that.common.answerList[i].answer_text_rear_ja + 
                 '</p>' +
                 '</td>' +
               '</tr>'
             );
           }
-
         }
         $(GROBAL.answer_select.element.select_table_box_ans).mCustomScrollbar({
           mouseWheel: false,
@@ -161,7 +185,7 @@ class AnswerSelect {
   */
   toAnswerSelect (type) {
     var local_answer_id = this.common.answerId = type;
-    var target = common_var.this_answer_list.filter(function (item, index) {
+    var target = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;
     });
     this.common.wordId = target[0].word_id;
@@ -216,29 +240,30 @@ class AnswerSelect {
   * 回答詳細選択テーブル作成
   */
   setAnswerSelectDetailTable () {
+    let that = this;
     $.ajax({
       url: 'lib/json/answer_detail_' + this.common.wordId + '.json',
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-        common_var.this_word_list = data;
+        that.common.wordList = data;
       },
       error: function(data) {
         console.log("error");
       },
       complete: function(data) {
-        for (var i = 0; i < common_var.this_word_list.length; i += 2) {
-          if (common_var.this_word_list[i + 1]) {
+        for (var i = 0; i < that.common.wordList.length; i += 2) {
+          if (that.common.wordList[i + 1]) {
             $(GROBAL.answer_select.element.select_word_table).append(
               '<tr>' +
-              '<td class="select_word_button" word_detail_id="' + common_var.this_word_list[i].word_detail_id + '">' + common_var.this_word_list[i].word_detail_text_ja + '</td>' +
-              '<td class="select_word_button" word_detail_id="' + common_var.this_word_list[i + 1].word_detail_id + '">' + common_var.this_word_list[i + 1].word_detail_text_ja + '</td>' +
+              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + that.common.wordList[i].word_detail_text_ja + '</td>' +
+              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i + 1].word_detail_id + '">' + that.common.wordList[i + 1].word_detail_text_ja + '</td>' +
               '</tr>'
             );
           } else {
             $(GROBAL.answer_select.element.select_word_table).append(
               '<tr>' +
-              '<td class="select_word_button" word_detail_id="' + common_var.this_word_list[i].word_detail_id + '">' + common_var.this_word_list[i].word_detail_text_ja + '</td>' +
+              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + that.common.wordList[i].word_detail_text_ja + '</td>' +
               '</tr>'
             );
           }

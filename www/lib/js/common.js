@@ -10,8 +10,11 @@ const GROBAL = {
     },
     element : {
       top_img : ".top_img",
+      talk_start_block : ".talk_start_block",
+      role_select_block : ".role_select_block",
       top_left_img : "#top_left_img",
       top_right_img : "#top_right_img",
+      init_button : "#init_button",
       start_button : "#talk_start_button"
     },
     value : {
@@ -20,13 +23,16 @@ const GROBAL = {
       boy : "b",
       girl : "g",
       left : "left",
-      right : "right"
+      right : "right",
+      loading : ".loading_page",
+      top_transition : ".top_transition",
+      role_transition : ".role_transition"
     }
   },
   main : {
     element : {
       category_table : "#category_table",
-      talking_button : ".talking_button",
+      day_button : ".day_button",
       question_select_table : "#question_select_table",
       question_select_button : ".question_select_button",
       answer_start_button : "#answer_start_button",
@@ -43,7 +49,7 @@ const GROBAL = {
     value : {
       transition : ".top_transition",
       role_transition : ".role_transition",
-      talking_id : "talking_id",
+      day_id : "day_id",
       question_id : "question_id",
       answer_type : "answer_type",
       answer_id : "answer_id",
@@ -144,17 +150,10 @@ const GROBAL = {
     },
     value : {
       storage_base : "gs://englira-beta.appspot.com/",
-      file_type : ".mp4"
+      file_type : ".mp4",
+      db_name : "sampleDB2"
     }
   }
-}
-
-var common_var = {
-  this_category_list: [],
-  this_question_list: [],
-  this_answer_list: [],
-  this_word_list: [],
-  this_selected_question: []
 }
 
 const common_parts = {
@@ -165,7 +164,17 @@ const common_parts = {
   this_word_id: Symbol(),
   this_word_detail_id: Symbol(),
   this_answer_type: Symbol(),
-  this_current_number: Symbol()
+  this_current_number: Symbol(),
+  // test funami 20200305
+  this_category_list: Symbol(),
+  this_question_list: Symbol(),
+  this_answer_list: Symbol(),
+  this_word_list: Symbol(),
+  this_selected_question: Symbol(),
+  this_question_records: Symbol(),
+  this_answer_records: Symbol(),
+  this_db_request: Symbol(),
+  this_current_day: Symbol()
 }
 
 class CommonParts {
@@ -177,6 +186,15 @@ class CommonParts {
     this[common_parts.this_word_id] = "";
     this[common_parts.this_answer_type] = "";
     this[common_parts.this_current_number] = 0;
+    this[common_parts.this_category_list] = [];
+    this[common_parts.this_question_list] = [];
+    this[common_parts.this_answer_list] = [];
+    this[common_parts.this_word_list] = [];
+    this[common_parts.this_selected_question] = [];
+    this[common_parts.this_question_records] = "";
+    this[common_parts.this_answer_records] = "";
+    this[common_parts.this_db_request] = "";
+    this[common_parts.this_current_day] = 1;
   }
 
   // setter・getter
@@ -234,6 +252,69 @@ class CommonParts {
   }
   get currentNumber () {
     return this[common_parts.this_current_number];
+  }
+
+  set categoryList (value) {
+    this[common_parts.this_category_list] = value;
+  }
+  get categoryList () {
+    return this[common_parts.this_category_list];
+  }
+
+  set questionList (value) {
+    this[common_parts.this_question_list] = value;
+  }
+  get questionList () {
+    return this[common_parts.this_question_list];
+  }
+
+  set answerList (value) {
+    this[common_parts.this_answer_list] = value;
+  }
+  get answerList () {
+    return this[common_parts.this_answer_list];
+  }
+
+  set wordList (value) {
+    this[common_parts.this_word_list] = value;
+  }
+  get wordList () {
+    return this[common_parts.this_word_list];
+  }
+
+  set selectedQuestion (value) {
+    this[common_parts.this_selected_question] = value;
+  }
+  get selectedQuestion () {
+    return this[common_parts.this_selected_question];
+  }
+
+  set questionRecords (value) {
+    this[common_parts.this_question_records] = value;
+  }
+  get questionRecords () {
+    return this[common_parts.this_question_records];
+  }
+
+  set answerRecords (value) {
+    this[common_parts.this_answer_records] = value;
+  }
+  get answerRecords () {
+    return this[common_parts.this_answer_records];
+  }
+
+  set dbRequest (value) {
+    this[common_parts.this_db_request] = value;
+  }
+  get dbRequest () {
+    return this[common_parts.this_db_request];
+  }
+
+  set currentDay (value) {
+    this[common_parts.this_current_day] = value;
+  }
+  get currentDay () {
+    return this[common_parts.this_current_day];
   }
 
 
@@ -363,6 +444,50 @@ class CommonParts {
       const sound = new Audio(url);
       sound.play();
     });
+  }
+
+  /**
+  * indexedDB初期化
+  */
+  initIndexedDB () {
+    this.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    // オブジェクトの初期化
+    this.dbRequest.onupgradeneeded = function (e) {
+      let db = e.target.result;
+      let current_day_store = db.createObjectStore("t_current_day", {
+        keyPath : 'id'
+      });
+      let parent_records_store = db.createObjectStore("t_parent_records", {
+        keyPath : "id"
+      });
+      let child_records_store = db.createObjectStore("t_child_records", {
+        keyPath : "id"
+      });
+      current_day_store.transaction.oncomplete = function (e) {
+        let default_data = {
+          id : 1,
+          current_day : 1
+        }
+        let target_object = db.transaction("t_current_day", "readwrite").objectStore("t_current_day");
+        target_object.add(default_data);
+      }
+    }
+  }
+
+  /**
+  * indexedDBの中身一旦削除
+  */
+  deleteIndexedDB () {
+    let deleteReq = indexedDB.deleteDatabase(GROBAL.common.value.db_name);
+
+    deleteReq.onsuccess = function(event){
+      console.log('db delete success');
+      // 存在しないDB名を指定してもこっちが実行される
+    }
+
+    deleteReq.onerror = function(){
+      console.log('db delete error');
+    }
   }
 
 }

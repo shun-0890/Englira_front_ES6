@@ -54,16 +54,16 @@ class QuestionDetail {
   */
   setQuestionTable() {
     var local_question_id = this.common.questionId;
-    var target = common_var.this_question_list.filter(function (item, index) {
+    var target = this.common.questionList.filter(function (item, index) {
       if (item.question_id == local_question_id) return true;
     });
-    common_var.this_selected_question = target[0];
+    this.common.selectedQuestion = target[0];
     this.common.createDetailBlock(
       local_question_id,
       GROBAL.question_detail.value.question_table,
-      common_var.this_selected_question.question_text_ja,
-      common_var.this_selected_question.question_text_en,
-      common_var.this_selected_question.question_text_en_phonetic, 
+      this.common.selectedQuestion.question_text_ja,
+      this.common.selectedQuestion.question_text_en,
+      this.common.selectedQuestion.question_text_en_phonetic, 
       GROBAL.question_detail.view.voice
     );
     // 回答スタートがクリックされた時

@@ -38,35 +38,40 @@ class TalkTop {
   * カテゴリテーブル作成
   */
   setCategory() {
+    let that = this;
     $.ajax({
       url: 'lib/json/talking_type.json',
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-        common_var.this_category_list = data;
+        //common_var.this_category_list = data;
+        that.common.categoryList = data;
       },
       error: function(data) {
         console.log("error");
       },
       complete: function(data) {
-        for (var i = 0; i < common_var.this_category_list.length; i += 2) {
-          if (common_var.this_category_list[i + 1]) {
-            let name_one = rubyContent(common_var.this_category_list[i].name,common_var.this_category_list[i].name_phonetic,common_var.this_category_list[i].name_phonetic_info);
-            let name_two = rubyContent(common_var.this_category_list[i + 1].name,common_var.this_category_list[i + 1].name_phonetic,common_var.this_category_list[i + 1].name_phonetic_info);
-            $(GROBAL.talk_top.element.category_table).append(
-              '<tr>' +
-              '<td class="talking_button" talking_id="' + common_var.this_category_list[i].talking_id + '">' + name_one + '</td>' +
-              '<td class="talking_button" talking_id="' + common_var.this_category_list[i + 1].talking_id + '">' + name_two + '</td>' +
-              '</tr>'
-            );
-            
+        let append_item = "";
+        for (var i = 0; i < that.common.categoryList.length; i++) {
+          let day_number = Number(that.common.categoryList[i].talking_id);
+          let class_name = "done";
+          if (that.common.currentDay == day_number) {
+            class_name = "current";
+          } else if (that.common.currentDay < day_number) {
+            class_name = "future";
+          }
+          if (day_number % 5 == 1) {
+            append_item = append_item + '<tr>' + 
+              '<td class="day_button ' + class_name + '" day_id="' + day_number + '">' + day_number.toString().padStart(2, '0') + '</td>';
+          } else if (day_number % 5 == 0 || Number(that.common.categoryList.length) - 1 == i) {
+            append_item = append_item + 
+              '<td class="day_button ' + class_name + '" day_id="' + day_number + '">' + day_number.toString().padStart(2, '0') + '</td>' + '</tr>';
           } else {
-            let name_one = rubyContent(common_var.this_category_list[i].name,common_var.this_category_list[i].name_phonetic,common_var.this_category_list[i].name_phonetic_info);
-            $(GROBAL.talk_top.element.category_table).append(
-              '<tr>' +
-              '<td class="talking_button" talking_id="' + common_var.this_category_list[i].talking_id + '">' + name_one + '</td>' +
-              '</tr>'
-            );
+            append_item = append_item + 
+              '<td class="day_button ' + class_name + '" day_id="' + day_number + '">' + day_number.toString().padStart(2, '0') + '</td>';
+          }
+          if (Number(that.common.categoryList.length) - 1 == i) {
+            $(GROBAL.talk_top.element.category_table).append(append_item);
           }
         }
         $(GROBAL.talk_top.element.category_table_box).mCustomScrollbar({
@@ -82,8 +87,8 @@ class TalkTop {
       }
     });
     
-    $(GROBAL.main.element.category_table).on("click", GROBAL.main.element.talking_button, {talk_top:this} , function(e) {
-      e.data.talk_top.toTalkSelect($(this).attr(GROBAL.main.value.talking_id));
+    $(GROBAL.main.element.category_table).on("click", GROBAL.main.element.day_button, {talk_top:this} , function(e) {
+      e.data.talk_top.toTalkSelect($(this).attr(GROBAL.main.value.day_id));
       e.data.talk_top.common.currentNumber += 1;
     });
     
@@ -93,15 +98,31 @@ class TalkTop {
   * カテゴリ選択時
   */
   toTalkSelect(type) {
-    // 隠す処理
-    this.common.emptyParts(GROBAL.talk_top.value.talk_category_block);
-    this.common.hideParts(GROBAL.main.value.transition);
-    // 選択されたカテゴリIDのセット
-    this.common.talkingId = type;
-    // 文言セット
-    this.setSentence(type);
-    // 表示変更
-    this.common.changeParts(GROBAL.talk_top.value.transition);
+    let that = this;
+    if (type <= that.common.currentDay) {
+      // 対象の親質問情報を取得してからパーツ表示
+      that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+      that.common.dbRequest.onsuccess = function (e) {
+        let db     = e.target.result;
+        let parent_records_tran   = db.transaction("t_parent_records", "readwrite");
+        let parent_records_store  = parent_records_tran.objectStore("t_parent_records");
+        let get_parent_info = parent_records_store.get(type);
+        get_parent_info.onsuccess = function (e) {
+          if (e.target.result !== undefined) {
+            that.common.questionRecords = e.target.result.records.split(',');
+          }
+          // 隠す処理
+          that.common.emptyParts(GROBAL.talk_top.value.talk_category_block);
+          that.common.hideParts(GROBAL.main.value.transition);
+          // 選択されたカテゴリIDのセット
+          that.common.talkingId = type;
+          // 文言セット
+          that.setSentence(type);
+          // 表示変更
+          that.common.changeParts(GROBAL.talk_top.value.transition);
+        }
+      }
+    }
   }
 
   /**
@@ -125,21 +146,32 @@ class TalkTop {
   * 質問選択テーブル作成
   */
   setSelect(type) {
+    let that = this;
     $.ajax({
       url: 'lib/json/question_base_' + type + '.json',
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-        common_var.this_question_list = data;
+        //common_var.this_question_list = data;
+        that.common.questionList = data;
       },
       error: function(data) {
         console.log("error");
       },
       complete: function(data) {
-        for (var i = 0; i < common_var.this_question_list.length; i++) {
+        for (var i = 0; i < that.common.questionList.length; i++) {
+          let class_name = "new";
+          
+          for (let j = 0; j < that.common.questionRecords.length; j++) {
+            if (that.common.questionList[i].question_id == that.common.questionRecords[j]) {
+              class_name = "done";
+              break;
+            }
+          }
+          
           $(GROBAL.talk_top.element.question_select_table).append(
             '<tr>' +
-            '<td class="question_select_button" question_id="' + common_var.this_question_list[i].question_id + '">' + common_var.this_question_list[i].question_text_ja + '</td>' +
+            '<td class="question_select_button ' + class_name + '" question_id="' + that.common.questionList[i].question_id + '">' + that.common.questionList[i].question_text_ja + '</td>' +
             '</tr>'
           );
         }
@@ -172,6 +204,37 @@ class TalkTop {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  /**
+  * t_current_dayオブジェクト取得処理
+  */
+  getCurrentDay () {
+    let that = this;
+    //common_var.this_db_request = indexedDB.open(GROBAL.common.value.db_name);
+    that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+
+    // オブジェクトへの接続が成功した場合
+    that.common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let tran   = db.transaction("t_current_day", "readwrite");
+      let store  = tran.objectStore("t_current_day");
+      tran.oncomplete = function () {
+        // 会話開始時
+        that.setBase();
+        that.common.changeParts(GROBAL.main.value.transition);
+        that.common.changeParts(GROBAL.main.value.role_transition);
+        db.close();
+      }
+      let get_req = store.getAll();
+      get_req.onsuccess = function (e) {
+        that.common.currentDay = Number(e.target.result[0].current_day);
+      };
+    }
+    // オブジェクトへの接続が失敗した場合
+    that.common.dbRequest.onerror = function(e) {
+      return false;
+    };
   }
 
 }

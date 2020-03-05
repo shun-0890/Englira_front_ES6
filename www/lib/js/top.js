@@ -3,7 +3,7 @@
 // メイン処理
 $(function () {
 
-  //var common = new CommonParts();
+  var common = new CommonParts();
   var top = new TopParts();
 
   //document.addEventListener("deviceready", top.onDeviceReady, false);
@@ -16,6 +16,10 @@ $(function () {
     media.play();
   }
   */
+
+  // indexedDB初期化
+  //common.deleteIndexedDB();
+  common.initIndexedDB();
 
   // firebase analytics ユーザープロパティ
   analytics.setUserProperties(
@@ -59,9 +63,11 @@ $(function () {
     });
   });
 
-  // スタートクリック時
-  $(GROBAL.top.element.start_button).on("click", function() {
-    top.talkStart();
+  // はじめるクリック時
+  $(GROBAL.top.element.init_button).on("click", function() {
+    common.emptyParts(GROBAL.top.value.top_transition);
+    common.emptyParts(GROBAL.top.value.loading);
+    common.changeParts(GROBAL.top.value.role_transition);
     // firebase analytics イベント
     analytics.logEvent(
       'page_view', {
@@ -70,6 +76,11 @@ $(function () {
         page_path: 'top',
         page_title: 'talk_start'
     });
+  });
+
+  // スタートボタンクリック時
+  $(GROBAL.top.element.start_button).on("click", function() {
+    top.talkStart();
   });
 
   // realtime database テスト
@@ -81,8 +92,6 @@ $(function () {
     test2 : "iii2"
   };
   */
-
-  //console.log("test : " , test.key);
   
   // 保存成功パターン start
   /*
@@ -137,42 +146,6 @@ $(function () {
     localStorage.setItem("test_count", 1);
   }
   */
-
-  // indexeddb テスト
-  var dbName = 'sampleDB';
-  var dbRequest  = indexedDB.open(dbName);
-
-  // 新規オブジェクトストア作成する必要がある場合
-  dbRequest.onupgradeneeded = function (e) {
-    var db = e.target.result;
-    db.createObjectStore("test_table", {
-      keyPath : 'id'
-    });
-  }
-  // データの更新
-  var data = {
-    id : 1,
-    name : "test2",
-    name2 : "test3"
-  }
-  dbRequest.onsuccess = function (e) {
-    var db     = e.target.result;
-    var tran   = db.transaction("test_table", "readwrite");
-    var store  = tran.objectStore("test_table");
-    var putRec = store.put(data);
-    putRec.onsuccess = function () {
-      console.log("put success");
-    }
-    tran.oncomplete = function () {
-      console.log("tran finished");
-    }
-    //var getRec = store.get(1);
-    var getRec = store.getAll();
-    getRec.onsuccess = function (e) {
-      console.log("result : " , e.target.result);
-    }
-    db.close();
-  }
 
 });
 

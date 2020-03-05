@@ -53,14 +53,13 @@ class AnswerDetail {
       '</div>'
     );
     var local_word_detail_id = this.common.wordDetailId;
-    console.log("detailid : " + this.common.wordDetailId);
     if (mode == GROBAL.answer_detail.value.mode) {
-      var target_word = common_var.this_word_list.filter  (function (item, index) {
+      var target_word = this.common.wordList.filter  (function (item, index) {
         if (item.word_detail_id == local_word_detail_id) return true;
       });
     }
     var local_answer_id = this.common.answerId
-    var target_answer = common_var.this_answer_list.filter(function (item, index) {
+    var target_answer = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;
     });
     if (mode == GROBAL.answer_detail.value.mode) {
@@ -125,6 +124,8 @@ class AnswerDetail {
     //document.getElementById("restart_img").src="img/restart.png";
     // 表示パーツ変更
     this.common.changeParts(GROBAL.answer_detail.value.transition_second);
+    // 学習履歴オブジェクト更新
+    this.updateHistoryOb();
   }
 
   /**
@@ -153,11 +154,11 @@ class AnswerDetail {
     ); 
     document.getElementById(GROBAL.answer_detail.element.one_point_top).innerHTML = GROBAL.answer_detail.view.one_point;
     var local_question_id = this.common.questionId;
-    var target_question = common_var.this_question_list.filter(function (item, index) {
+    var target_question = this.common.questionList.filter(function (item, index) {
       if (item.question_id == local_question_id) return true;
     });
     var local_answer_id = this.common.answerId;
-    var target_answer = common_var.this_answer_list.filter(function (item, index) {
+    var target_answer = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;
     });
 
@@ -216,6 +217,127 @@ class AnswerDetail {
     $(GROBAL.main.element.restart_button).on("click", {answer_detail:this}, function(e) {
       e.data.answer_detail.restartTalk();
     });
+  }
+
+  /**
+  * 学習履歴オブジェクトの更新処理
+  */
+  updateHistoryOb () {
+    let that = this;
+    that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    that.common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let current_day_tran      = db.transaction("t_current_day", "readwrite");
+      let parent_records_tran   = db.transaction("t_parent_records", "readwrite");
+      let child_records_tran    = db.transaction("t_child_records", "readwrite");
+      let current_day_store     = current_day_tran.objectStore("t_current_day");
+      let parent_records_store  = parent_records_tran.objectStore("t_parent_records");
+      let child_records_store   = child_records_tran.objectStore("t_child_records");
+
+      // 親オブジェクト中身編集
+      let parent_key = that.common.talkingId;
+      let parent_records_data;
+      let parent_upd_flg = true;
+      if (that.common.questionRecords == "") {
+        parent_records_data = {
+          id: parent_key,
+          records: that.common.questionId
+        }
+      } else {
+        for (let i = 0; i < that.common.questionRecords.length; i++) {
+          if (that.common.questionId == that.common.questionRecords[i]) {
+            parent_upd_flg = false;
+            break;
+          }
+        }
+        if (parent_upd_flg) {
+          parent_records_data = {
+            id: parent_key,
+            records: that.common.questionRecords.join(',') + "," + that.common.questionId
+          }
+        }
+      }
+      if (parent_upd_flg) {
+        let put_parent_records = parent_records_store.put(parent_records_data);
+        put_parent_records.onsuccess = function () {
+          console.log("put parent records success");
+        }
+      }
+
+      // 子オブジェクト中身編集
+      let child_key = parent_key + "_" + that.common.questionId;
+      let child_records_data;
+      let child_upd_flg = true;
+      if (that.common.answerRecords == "") {
+        child_records_data = {
+          id: child_key,
+          records: that.common.answerId
+        }
+      } else {
+        for (let i = 0; i < that.common.answerRecords.length; i++) {
+          if (that.common.answerId == that.common.answerRecords[i]) {
+            child_upd_flg = false;
+            break;
+          }
+        }
+        if (child_upd_flg) {
+          child_records_data = {
+            id: child_key,
+            records: that.common.answerRecords.join(',') + "," + that.common.answerId
+          }
+        }
+      }
+      if (child_upd_flg) {
+        let put_child_records = child_records_store.put(child_records_data);
+        put_child_records.onsuccess = function () {
+          console.log("put child records success");
+        }
+      }
+
+      // 現在の日付データ更新
+      if (that.common.talkingId == that.common.currentDay) {
+        let current_day_data = {
+          id: 1,
+          current_day: that.common.currentDay + 1
+        }
+        let put_current_day    = current_day_store.put(current_day_data);
+        put_current_day.onsuccess = function () {
+          console.log("put current day success");
+        }
+      }
+      
+      current_day_tran.oncomplete = function () {
+        console.log("tran current day finished");
+      }
+      parent_records_tran.oncomplete = function () {
+        console.log("tran parent records finished");
+      }
+      child_records_tran.oncomplete = function () {
+        console.log("tran child records finished");
+      }
+
+      /* 動作確認用
+      var getRec = store.getAll();
+      getRec.onsuccess = function (e) {
+        if (e.target.result.length == 0) {
+          let default_data = {
+            id : 1,
+            current_day : 1
+          }
+          store.put(default_data);
+        } else {
+          common_var.this_current_day = e.target.result[0].current_day;
+        }
+        console.log("current_day : " , e.target.result[0].current_day);
+      }
+      var getRec = parent_records_store.get(parent_key);
+      getRec.onsuccess = function (e) {
+        console.log("parent_value : " , e.target.result.records);
+      }
+      */
+      
+      db.close();
+    }
   }
 
   /**
