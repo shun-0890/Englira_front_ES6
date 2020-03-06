@@ -53,8 +53,8 @@ class QuestionDetail {
   * 質問詳細テーブル作成
   */
   setQuestionTable() {
-    var local_question_id = this.common.questionId;
-    var target = this.common.questionList.filter(function (item, index) {
+    let local_question_id = this.common.questionId;
+    let target = this.common.questionList.filter(function (item, index) {
       if (item.question_id == local_question_id) return true;
     });
     this.common.selectedQuestion = target[0];

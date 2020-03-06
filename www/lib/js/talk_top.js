@@ -44,7 +44,6 @@ class TalkTop {
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-        //common_var.this_category_list = data;
         that.common.categoryList = data;
       },
       error: function(data) {
@@ -152,7 +151,6 @@ class TalkTop {
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-        //common_var.this_question_list = data;
         that.common.questionList = data;
       },
       error: function(data) {
@@ -197,9 +195,9 @@ class TalkTop {
   * パラメータの値を取得する
   */
   getParam (name) {
-    var url = window.location.href;
+    let url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';

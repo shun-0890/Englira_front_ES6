@@ -4,46 +4,78 @@
 $(function () {
   // インスタンス初期化
   var common = new CommonParts();
-  var talk_top = new TalkTop(common);
-  var question_detail = new QuestionDetail(common);
-  var answer_select = new AnswerSelect(common);
-  var answer_detail = new AnswerDetail(common); // 会話開始時
+  var answer_detail = new AnswerDetail(common);
+  var answer_select = new AnswerSelect(common, answer_detail);
+  var question_detail = new QuestionDetail(common, answer_select);
+  var talk_top = new TalkTop(common, question_detail); // 現在の進捗状況を取得しそれに応じた画面表示 20200228
 
-  talk_top.setWho();
-  talk_top.setCategory();
-  common.changeParts(GROBAL.main.value.transition); // 会話カテゴリが選択された時
+  var result = talk_top.getCurrentDay();
 
-  $(GROBAL.main.element.category_table).on("click", GROBAL.main.element.talking_button, function () {
-    talk_top.toTalkSelect($(this).attr(GROBAL.main.value.talking_id));
-  }); // 質問種別が選択された時
-
-  $(GROBAL.main.element.question_select_table).on("click", GROBAL.main.element.question_select_button, function () {
-    question_detail.toQuestionSelect($(this).attr(GROBAL.main.value.question_id));
-  }); // 回答スタートがクリックされた時
-
-  $(GROBAL.main.element.answer_start_button).on("click", function () {
-    answer_select.answerStart();
-  }); // 回答基本が選択された時
-
-  $(GROBAL.main.element.answer_select_table).on("click", GROBAL.main.element.answer_select_button, function () {
-    common.answerType = $(this).attr(GROBAL.main.value.answer_type);
-
-    if (common.answerType == GROBAL.main.value.type) {
-      answer_select.toAnswerSelect($(this).attr(GROBAL.main.value.answer_id));
-    } else {
-      answer_detail.toViewAnswerDetail($(this).attr(GROBAL.main.value.answer_id), common.answerType);
-    }
-  }); // 回答詳細が選択された時
-
-  $(GROBAL.main.element.select_word_table).on("click", GROBAL.main.element.select_word_button, function () {
-    answer_detail.toViewAnswerDetail($(this).attr(GROBAL.main.value.word_detail_id));
-  }); // ワンポイント表示がクリックされた時
-
-  $(GROBAL.main.element.one_point_start_button).on("click", function () {
-    answer_detail.toViewOnePoint();
-  }); // もっと話すがクリックされた時
-
-  $(GROBAL.main.element.restart_button).on("click", function () {
+  if (result == false) {
     answer_detail.restartTalk();
+  } // 戻るボタンが押下された時の処理
+
+
+  $(GROBAL.common.element.back_button).on("click", function () {
+    switch (common.currentNumber) {
+      case 0:
+        answer_detail.restartTalk();
+        break;
+
+      case 1:
+        common.emptyParts(GROBAL.question_detail.value.question_select_block);
+        common.hideParts(GROBAL.talk_top.value.transition);
+        talk_top.setBase();
+        common.changeParts(GROBAL.main.value.transition);
+        break;
+
+      case 2:
+        common.emptyParts(GROBAL.answer_select.value.question_detail_block);
+        common.hideParts(GROBAL.question_detail.value.transition);
+        talk_top.setSentence(common.talkingId);
+        common.changeParts(GROBAL.talk_top.value.transition);
+        common.changeParts(GROBAL.main.value.role_transition);
+        break;
+
+      case 3:
+        common.emptyParts(GROBAL.answer_select.value.answer_select_block);
+        common.hideParts(GROBAL.answer_select.value.transition_first);
+        question_detail.setForQuestionDetail();
+        common.changeParts(GROBAL.question_detail.value.transition);
+        break;
+
+      case 4:
+        common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_block);
+        common.hideParts(GROBAL.answer_select.value.transition_second);
+        answer_select.answerStart();
+        break;
+
+      case 5:
+        common.emptyParts(GROBAL.answer_detail.value.answer_detail_block);
+        common.hideParts(GROBAL.answer_detail.value.transition_first);
+
+        if (common.answerType == GROBAL.main.value.type) {
+          answer_select.toAnswerSelect(common.answerId);
+        } else {
+          answer_select.answerStart();
+          common.currentNumber -= 1;
+        }
+
+        break;
+
+      case 6:
+        common.emptyParts(GROBAL.answer_detail.value.one_point_block);
+        common.hideParts(GROBAL.answer_detail.value.transition_second);
+
+        if (common.answerType == GROBAL.main.value.type) {
+          answer_detail.toViewAnswerDetail(common.wordDetailId, common.answerType);
+        } else {
+          answer_detail.toViewAnswerDetail(common.answerId, common.answerType);
+        }
+
+        break;
+    }
+
+    common.currentNumber -= 1;
   });
 });

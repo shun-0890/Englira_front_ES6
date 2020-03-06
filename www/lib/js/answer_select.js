@@ -184,8 +184,8 @@ class AnswerSelect {
   * 回答詳細テーブル作成
   */
   toAnswerSelect (type) {
-    var local_answer_id = this.common.answerId = type;
-    var target = this.common.answerList.filter(function (item, index) {
+    let local_answer_id = this.common.answerId = type;
+    let target = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;
     });
     this.common.wordId = target[0].word_id;

@@ -3,8 +3,8 @@
 // メイン処理
 $(function () {
 
-  var common = new CommonParts();
-  var top = new TopParts();
+  let common = new CommonParts();
+  let top = new TopParts();
 
   //document.addEventListener("deviceready", top.onDeviceReady, false);
   /*
@@ -35,7 +35,7 @@ $(function () {
 
   // 役割画像クリック時
   $(GROBAL.top.element.top_left_img).on("click", function() {
-    top.changeRole(GROBAL.top.value.left);
+    top.changeRole(GROBAL.top.value.left, $(this).attr('role'));
     analytics.logEvent(
       'top_event', {
         action_type: 'left image',
@@ -48,7 +48,7 @@ $(function () {
     });
   });
   $(GROBAL.top.element.top_right_img).on("click", function() {
-    top.changeRole(GROBAL.top.value.right);
+    top.changeRole(GROBAL.top.value.right, $(this).attr('role'));
     // firebase analytics イベント
     analytics.logEvent(
       'screen_view', {
@@ -84,7 +84,7 @@ $(function () {
   });
 
   // realtime database テスト
-  var test = database.ref().child('test');
+  let test = database.ref().child('test');
 
   /*
   var postData = {
@@ -182,21 +182,25 @@ class TopParts {
   /**
   * 役割画像クリック時
   */
-  changeRole (type) {
-    if (type == GROBAL.top.value.left) {
+  changeRole (type, role) {
+    if (type == GROBAL.top.value.left && this.leftImg !== role) {
       if (this.leftImg == GROBAL.top.value.mother) {
-        $(GROBAL.top.element.top_left_img).attr('src', GROBAL.top.img.father_img);
+        $(GROBAL.top.element.top_left_mother).attr('src', GROBAL.top.img.mother_2);
+        $(GROBAL.top.element.top_left_father).attr('src', GROBAL.top.img.father_1);
         this.leftImg = GROBAL.top.value.father;
       } else {
-        $(GROBAL.top.element.top_left_img).attr('src', GROBAL.top.img.mother_img);
+        $(GROBAL.top.element.top_left_mother).attr('src', GROBAL.top.img.mother_1);
+        $(GROBAL.top.element.top_left_father).attr('src', GROBAL.top.img.father_2);
         this.leftImg = GROBAL.top.value.mother;
       }
-    } else {
+    } else if (type == GROBAL.top.value.right && this.rightImg !== role) {
       if (this.rightImg == GROBAL.top.value.boy) {
-        $(GROBAL.top.element.top_right_img).attr('src', GROBAL.top.img.girl_img);
+        $(GROBAL.top.element.top_right_boy).attr('src', GROBAL.top.img.boy_2);
+        $(GROBAL.top.element.top_right_girl).attr('src', GROBAL.top.img.girl_1);
         this.rightImg = GROBAL.top.value.girl;
       } else {
-        $(GROBAL.top.element.top_right_img).attr('src', GROBAL.top.img.boy_img);
+        $(GROBAL.top.element.top_right_boy).attr('src', GROBAL.top.img.boy_1);
+        $(GROBAL.top.element.top_right_girl).attr('src', GROBAL.top.img.girl_2);
         this.rightImg = GROBAL.top.value.boy;
       }
     }

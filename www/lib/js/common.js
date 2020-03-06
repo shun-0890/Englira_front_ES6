@@ -3,25 +3,33 @@
 const GROBAL = {
   top : {
     img : {
-      father_img : "img/father_1.png",
-      mother_img : "img/mother_1.png",
-      girl_img : "img/girl_1.png",
-      boy_img : "img/boy_1.png"
+      mother_1 : "img/mother_1.png",
+      mother_2 : "img/mother_2.png",
+      father_1 : "img/father_1.png",
+      father_2 : "img/father_2.png",
+      girl_1 : "img/girl_1.png",
+      girl_2 : "img/girl_2.png",
+      boy_1 : "img/boy_1.png",
+      boy_2 : "img/boy_2.png"
     },
     element : {
       top_img : ".top_img",
       talk_start_block : ".talk_start_block",
       role_select_block : ".role_select_block",
-      top_left_img : "#top_left_img",
-      top_right_img : "#top_right_img",
+      top_left_img : ".top_left_img",
+      top_left_mother : "#top_left_mother",
+      top_left_father : "#top_left_father",
+      top_right_img : ".top_right_img",
+      top_right_girl : "#top_right_girl",
+      top_right_boy : "#top_right_boy",
       init_button : "#init_button",
       start_button : "#talk_start_button"
     },
     value : {
-      mother : "m",
-      father : "f",
-      boy : "b",
-      girl : "g",
+      mother : "mother",
+      father : "father",
+      boy : "boy",
+      girl : "girl",
       left : "left",
       right : "right",
       loading : ".loading_page",
@@ -419,16 +427,16 @@ class CommonParts {
   setRoleImage (type, number, id) {
     let _value = "";
     switch (type) {
-      case "m" :
+      case "mother" :
         _value = "img/mother_" + number + ".png";
         break;
-      case "f" :
+      case "father" :
         _value = "img/father_" + number + ".png";
         break;
-      case "b" :
+      case "boy" :
         _value = "img/boy_" + number + ".png";
         break;
-      case "g" :
+      case "girl" :
         _value = "img/girl_" + number + ".png";
         break;
     }

@@ -52,14 +52,14 @@ class AnswerDetail {
       '</div>' +
       '</div>'
     );
-    var local_word_detail_id = this.common.wordDetailId;
+    let local_word_detail_id = this.common.wordDetailId;
     if (mode == GROBAL.answer_detail.value.mode) {
       var target_word = this.common.wordList.filter  (function (item, index) {
         if (item.word_detail_id == local_word_detail_id) return true;
       });
     }
-    var local_answer_id = this.common.answerId
-    var target_answer = this.common.answerList.filter(function (item, index) {
+    let local_answer_id = this.common.answerId
+    let target_answer = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;
     });
     if (mode == GROBAL.answer_detail.value.mode) {
@@ -153,11 +153,11 @@ class AnswerDetail {
       '</div>'
     ); 
     document.getElementById(GROBAL.answer_detail.element.one_point_top).innerHTML = GROBAL.answer_detail.view.one_point;
-    var local_question_id = this.common.questionId;
-    var target_question = this.common.questionList.filter(function (item, index) {
+    let local_question_id = this.common.questionId;
+    let target_question = this.common.questionList.filter(function (item, index) {
       if (item.question_id == local_question_id) return true;
     });
-    var local_answer_id = this.common.answerId;
+    let local_answer_id = this.common.answerId;
     var target_answer = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;
     });

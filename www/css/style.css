@@ -152,16 +152,28 @@ body {
   max-height: 90px;
 }
 
-#top_left_img {
+#top_left_mother {
   position: absolute;
   width:25%;
-  left: 20%;
+  left: 0%;
 }
 
-#top_right_img {
+#top_left_father {
+  position: absolute;
+  width:25%;
+  left: 25%;
+}
+
+#top_right_boy {
   position: absolute;
   width: 25%;
-  right: 20%;
+  left: 50%;
+}
+
+#top_right_girl {
+  position: absolute;
+  width: 25%;
+  left: 75%;
 }
 
 .how_to_img {
