@@ -58,10 +58,12 @@ class QuestionDetail {
       if (item.question_id == local_question_id) return true;
     });
     this.common.selectedQuestion = target[0];
+    // ルビ振り
+    let text_ja = rubyContent(this.common.selectedQuestion.question_text_ja,this.common.selectedQuestion.question_text_ja_phonetic, this.common.selectedQuestion.question_text_ja_phonetic_info);
     this.common.createDetailBlock(
       local_question_id,
       GROBAL.question_detail.value.question_table,
-      this.common.selectedQuestion.question_text_ja,
+      text_ja,
       this.common.selectedQuestion.question_text_en,
       this.common.selectedQuestion.question_text_en_phonetic, 
       GROBAL.question_detail.view.voice

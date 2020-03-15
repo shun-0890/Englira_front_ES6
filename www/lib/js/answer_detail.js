@@ -64,9 +64,9 @@ class AnswerDetail {
     });
     if (mode == GROBAL.answer_detail.value.mode) {
       var local_text_ja = 
-        target_answer[0].answer_text_front_ja + 
-        target_word[0].word_detail_text_ja + 
-        target_answer[0].answer_text_rear_ja;
+        rubyContent(target_answer[0].answer_text_front_ja, target_answer[0].answer_text_front_ja_phonetic, target_answer[0].answer_text_front_ja_phonetic_info) + 
+        rubyContent(target_word[0].word_detail_text_ja, target_word[0].word_detail_text_ja_phonetic, target_word[0].word_detail_text_ja_phonetic_info) + 
+        rubyContent(target_answer[0].answer_text_rear_ja, target_answer[0].answer_text_rear_ja_phonetic, target_answer[0].answer_text_rear_ja_phonetic_info);
       var local_text_en = 
         target_answer[0].answer_text_front_en + 
         target_word[0].word_detail_text_en + 
@@ -77,8 +77,8 @@ class AnswerDetail {
         target_answer[0].answer_text_rear_en_phonetic;
     } else {
       var local_text_ja = 
-        target_answer[0].answer_text_front_ja + 
-        target_answer[0].answer_text_rear_ja;
+        rubyContent(target_answer[0].answer_text_front_ja, target_answer[0].answer_text_front_ja_phonetic, target_answer[0].answer_text_front_ja_phonetic_info) + 
+        rubyContent(target_answer[0].answer_text_rear_ja, target_answer[0].answer_text_rear_ja_phonetic, target_answer[0].answer_text_rear_ja_phonetic_info);
       var local_text_en = 
         target_answer[0].answer_text_front_en + 
         target_answer[0].answer_text_rear_en;
@@ -162,20 +162,24 @@ class AnswerDetail {
       if (item.answer_id == local_answer_id) return true;
     });
 
+    // ルビ振り（ワンポイント質問用）
+    let question_text_ja = rubyContent(target_question[0].question_text_ja, target_question[0].question_text_ja_phonetic, target_question[0].question_text_ja_phonetic_info);
+    let one_point = rubyContent(target_question[0].one_point, target_question[0].one_point_phonetic, target_question[0].one_point_phonetic_info);
+
     this.common.createDetailBlock(
       "",
       GROBAL.answer_detail.value.one_point_question_table,
-      target_question[0].question_text_ja,
+      question_text_ja,
       target_question[0].question_text_en,
       target_question[0].question_text_en_phonetic, 
-      target_question[0].one_point,
+      one_point,
       GROBAL.answer_detail.value.table_type
     );
     if (this.common.answerType == GROBAL.main.value.type) {
       var local_text_ja = 
-        target_answer[0].answer_text_front_ja + 
+        rubyContent(target_answer[0].answer_text_front_ja, target_answer[0].answer_text_front_ja_phonetic, target_answer[0].answer_text_front_ja_phonetic_info) + 
         GROBAL.answer_detail.view.example_text +
-        target_answer[0].answer_text_rear_ja;
+        rubyContent(target_answer[0].answer_text_rear_ja, target_answer[0].answer_text_rear_ja_phonetic, target_answer[0].answer_text_rear_ja_phonetic_info);
       var local_text_en = 
         target_answer[0].answer_text_front_en + 
         GROBAL.answer_detail.view.example_text + 
@@ -186,12 +190,15 @@ class AnswerDetail {
         target_answer[0].answer_text_rear_en_phonetic;
     } else {
       var local_text_ja = 
-        target_answer[0].answer_text_front_ja;
+        rubyContent(target_answer[0].answer_text_front_ja, target_answer[0].answer_text_front_ja_phonetic, target_answer[0].answer_text_front_ja_phonetic_info);
       var local_text_en = 
         target_answer[0].answer_text_front_en;
       var local_text_en_phonetic = 
         target_answer[0].answer_text_front_en_phonetic;
     }
+
+    // ルビ振り（回答用）
+    let one_point_ans = rubyContent(target_answer[0].one_point, target_answer[0].one_point_phonetic, target_answer[0].one_point_phonetic_info);
 
     this.common.createDetailBlock(
       "",
@@ -199,7 +206,7 @@ class AnswerDetail {
       local_text_ja,
       local_text_en,
       local_text_en_phonetic, 
-      target_answer[0].one_point,
+      one_point_ans,
       GROBAL.answer_detail.value.table_type
     );
     $(GROBAL.answer_detail.element.one_point_question_table_box).mCustomScrollbar({

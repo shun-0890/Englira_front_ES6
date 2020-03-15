@@ -373,7 +373,7 @@ class CommonParts {
   createDetailBlock (
     selected_id,
     table_name, 
-    text_ja, 
+    text_ja,
     text_en, 
     text_en_phonetic, 
     detail_text,

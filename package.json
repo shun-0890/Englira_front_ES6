@@ -14,7 +14,10 @@
     },
     "scripts": {
         "monaca:preview": "npm run dev",
-        "dev": "browser-sync start -s www/ --watch --port 8080 --ui-port 8081"
+        "dev": "browser-sync start -s www/ --watch --port 8080 --ui-port 8081",
+        "build": "node_modules/.bin/babel www/lib/js --out-dir www/js/dist",
+        "watch": "watchify -t babelify www/lib/js -o www/js/dist",
+        "start": "webpack --watch"
     },
     "cordova": {
         "plugins": {

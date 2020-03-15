@@ -166,10 +166,13 @@ class TalkTop {
               break;
             }
           }
+
+          // ルビ振り
+          let text = rubyContent(that.common.questionList[i].question_text_ja, that.common.questionList[i].question_text_ja_phonetic, that.common.questionList[i].question_text_ja_phonetic_info);
           
           $(GROBAL.talk_top.element.question_select_table).append(
             '<tr>' +
-            '<td class="question_select_button ' + class_name + '" question_id="' + that.common.questionList[i].question_id + '">' + that.common.questionList[i].question_text_ja + '</td>' +
+            '<td class="question_select_button ' + class_name + '" question_id="' + that.common.questionList[i].question_id + '">' + text + '</td>' +
             '</tr>'
           );
         }

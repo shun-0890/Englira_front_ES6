@@ -44,6 +44,8 @@ class AnswerSelect {
   * 質問内容セット
   */
   setQuestionText () {
+    // ルビ振り
+    let text_ja = rubyContent(this.common.selectedQuestion.question_text_ja, this.common.selectedQuestion.question_text_ja_phonetic, this.common.selectedQuestion.question_text_ja_phonetic_info);
     $(GROBAL.answer_select.value.answer_select_block).append(
       '<div class="answer_top_question_text">' +
       '<table id="answer_question_text_table" class="select_table_qes">' +
@@ -53,7 +55,7 @@ class AnswerSelect {
       '<img id="question_top_img" src="">' + 
       '</div>' +
       '<div class="right_table_text">' +
-        this.common.selectedQuestion.question_text_ja +
+        text_ja +
       '</div>' +
       '</td>' +
       '</tr>' +
@@ -73,20 +75,6 @@ class AnswerSelect {
       '</div>' +
       '</div>'
     );
-/*
-    $(GROBAL.answer_select.element.answer_question_text_table).append(
-      '<tr>' +
-      '<td>' + 
-      '<div class="left_table_img">' +
-      '<img id="question_top_img" src="">' + 
-      '</div>' +
-      '<div class="right_table_text">' +
-        common_var.this_selected_question.question_text_ja +
-      '</div>' +
-      '</td>' +
-      '</tr>'
-    );
-*/
     this.common.setRoleImage(this.common.leftImg, 3, GROBAL.answer_select.value.question_top_img);
   }
 
@@ -125,31 +113,37 @@ class AnswerSelect {
             }
           }
 
+          // ルビ振り共通
+          let text_front_ja = rubyContent(that.common.answerList[i].answer_text_front_ja, that.common.answerList[i].answer_text_front_ja_phonetic, that.common.answerList[i].answer_text_front_ja_phonetic_info);
+          let text_rear_ja = rubyContent(that.common.answerList[i].answer_text_rear_ja, that.common.answerList[i].answer_text_rear_ja_phonetic, that.common.answerList[i].answer_text_rear_ja_phonetic_info);
+
           if (that.common.answerList[i].select_text == " ") {
             $(GROBAL.answer_select.element.answer_select_table).append(
               '<tr>' +
               '<td class="answer_select_button ' + class_name + '" answer_id="' + that.common.answerList[i].answer_id + '" answer_type="no_text">' + 
                 '<p class="answer_front">' + 
-                that.common.answerList[i].answer_text_front_ja + 
+                text_front_ja + 
                 '</p>' +
                 '<p class="answer_rear">' + 
-                that.common.answerList[i].answer_text_rear_ja + 
+                text_rear_ja + 
                 '</p>' +
                 '</td>' +
               '</tr>'
             );
           } else {
+            // ルビ振り（選択肢）
+            let select_text = rubyContent(that.common.answerList[i].select_text, that.common.answerList[i].select_text_phonetic, that.common.answerList[i].select_text_phonetic_info);
             $(GROBAL.answer_select.element.answer_select_table).append(
               '<tr>' +
               '<td class="answer_select_button ' + class_name + '" answer_id="' + that.common.answerList[i].answer_id + '" answer_type="normal">' + 
                 '<p class="answer_front">' + 
-                that.common.answerList[i].answer_text_front_ja + 
+                text_front_ja + 
                 '</p>' +
                 '<p class="question_mark_text">' + 
-                that.common.answerList[i].select_text + 
+                select_text + 
                 '</p>' +
                 '<p class="answer_rear">' + 
-                that.common.answerList[i].answer_text_rear_ja + 
+                text_rear_ja + 
                 '</p>' +
                 '</td>' +
               '</tr>'
@@ -193,7 +187,11 @@ class AnswerSelect {
     this.common.emptyParts(GROBAL.answer_select.value.answer_select_block);
     this.common.hideParts(GROBAL.answer_select.value.transition_first);
     // 画像と文言セット
-    this.setForAnswer(target[0].answer_text_front_ja, target[0].select_text, target[0].answer_text_rear_ja);
+    // ルビ振り
+    let text_front_ja = rubyContent(target[0].answer_text_front_ja, target[0].answer_text_front_ja_phonetic, target[0].answer_text_front_ja_phonetic_info);
+    let select_text = rubyContent(target[0].select_text, target[0].select_text_phonetic, target[0].select_text_phonetic_info);
+    let text_rear_ja = rubyContent(target[0].answer_text_rear_ja, target[0].answer_text_rear_ja_phonetic, target[0].answer_text_rear_ja_phonetic_info);
+    this.setForAnswer(text_front_ja, select_text, text_rear_ja);
     // 回答詳細テーブル作成
     this.setAnswerSelectDetailTable();
     // パーツ表示
@@ -254,16 +252,21 @@ class AnswerSelect {
       complete: function(data) {
         for (var i = 0; i < that.common.wordList.length; i += 2) {
           if (that.common.wordList[i + 1]) {
+            // ルビ振り
+            let text_ja_first = rubyContent(that.common.wordList[i].word_detail_text_ja, that.common.wordList[i].word_detail_text_ja_phonetic, that.common.wordList[i].word_detail_text_ja_phonetic_info);
+            let text_ja_next = rubyContent(that.common.wordList[i + 1].word_detail_text_ja, that.common.wordList[i + 1].word_detail_text_ja_phonetic, that.common.wordList[i + 1].word_detail_text_ja_phonetic_info);
             $(GROBAL.answer_select.element.select_word_table).append(
               '<tr>' +
-              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + that.common.wordList[i].word_detail_text_ja + '</td>' +
-              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i + 1].word_detail_id + '">' + that.common.wordList[i + 1].word_detail_text_ja + '</td>' +
+              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + text_ja_first + '</td>' +
+              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i + 1].word_detail_id + '">' + text_ja_next + '</td>' +
               '</tr>'
             );
           } else {
+            // ルビ振り
+            let text_ja = rubyContent(that.common.wordList[i].word_detail_text_ja, that.common.wordList[i].word_detail_text_ja_phonetic, that.common.wordList[i].word_detail_text_ja_phonetic_info);
             $(GROBAL.answer_select.element.select_word_table).append(
               '<tr>' +
-              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + that.common.wordList[i].word_detail_text_ja + '</td>' +
+              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + text_ja + '</td>' +
               '</tr>'
             );
           }
