@@ -377,7 +377,9 @@ class CommonParts {
     text_en, 
     text_en_phonetic, 
     detail_text,
-    table_type='normal'
+    table_type='normal',
+    role_name="none",
+    number=0
   ) {
     if (table_type == 'normal') {
       $(table_name).append(
@@ -400,9 +402,12 @@ class CommonParts {
         '</tr>'
       );
     } else if (table_type == 'one_point') {
+      console.log("here");
+      console.log("role : " , role_name);
       $(table_name).append(
         '<tr>' +
         '<td class="normal_radius">' + 
+        '<div class="theme_img"><img id="theme_one_point_img_' + role_name + '"></div>' +
         '<div class="text_block_ja"><p>' +
           text_ja + 
         '</p></div>' +
@@ -418,6 +423,7 @@ class CommonParts {
         '</div></td>' + 
         '</tr>'
       );
+      this.setRoleImage(role_name, number, "#theme_one_point_img_" + role_name);
     }
   }
 
@@ -425,6 +431,7 @@ class CommonParts {
   * 役割画像セット
   */
   setRoleImage (type, number, id) {
+    console.log("id : ", id);
     let _value = "";
     switch (type) {
       case "mother" :

@@ -45,7 +45,7 @@ class AnswerDetail {
       '<div class="one_point_start">' +
       '<div id="one_point_start_button" class="one_point_start_outer">' +
       '<div class="one_point_start_inner">' +
-      'One Point' +
+      'ワンポイント' +
       '</div>' +
       '<div class="one_point_start_inner_border"></div>' +
       '</div>' +
@@ -133,9 +133,17 @@ class AnswerDetail {
   */
   setOnePointTable () {
     $(GROBAL.answer_detail.value.one_point_block).append(
-      '<div class="one_point_text">' +
-      '<p id="one_point_top">' +
+      '<div class="theme_wrapper_one_point">' +
+      '<p class="day_part">' + 'DAY' +
       '</p>' +
+      '<p id="current_day_one_point">' +
+      '</p>' +
+      '<div class="current_day_line_one_point">' +
+      '</div>' +
+      '<p id="theme_text_one_point">' +
+      '</p>' +
+      '<div class="border_part_one_point">' +
+      '</div>' +
       '</div>' +
       '<div id="one_point_question_table_box">' +
       '<table id="one_point_question_table">' +
@@ -152,7 +160,8 @@ class AnswerDetail {
       '</div>' +
       '</div>'
     ); 
-    document.getElementById(GROBAL.answer_detail.element.one_point_top).innerHTML = GROBAL.answer_detail.view.one_point;
+    document.getElementById("current_day_one_point").innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    document.getElementById("theme_text_one_point").innerHTML = "ワンポイント";
     let local_question_id = this.common.questionId;
     let target_question = this.common.questionList.filter(function (item, index) {
       if (item.question_id == local_question_id) return true;
@@ -173,7 +182,9 @@ class AnswerDetail {
       target_question[0].question_text_en,
       target_question[0].question_text_en_phonetic, 
       one_point,
-      GROBAL.answer_detail.value.table_type
+      GROBAL.answer_detail.value.table_type,
+      this.common.leftImg,
+      3
     );
     if (this.common.answerType == GROBAL.main.value.type) {
       var local_text_ja = 
@@ -207,7 +218,9 @@ class AnswerDetail {
       local_text_en,
       local_text_en_phonetic, 
       one_point_ans,
-      GROBAL.answer_detail.value.table_type
+      GROBAL.answer_detail.value.table_type,
+      this.common.rightImg,
+      3
     );
     $(GROBAL.answer_detail.element.one_point_question_table_box).mCustomScrollbar({
       mouseWheel: false,

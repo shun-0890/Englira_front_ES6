@@ -31,7 +31,7 @@ class AnswerSelect {
         // 質問内容セット
         that.setQuestionText();
         // 画像と文言セット
-        that.setWhoAnswer();
+        //that.setWhoAnswer();
         // 回答選択テーブル作成
         that.setAnswerTable();
         // 表示変更
@@ -47,45 +47,43 @@ class AnswerSelect {
     // ルビ振り
     let text_ja = rubyContent(this.common.selectedQuestion.question_text_ja, this.common.selectedQuestion.question_text_ja_phonetic, this.common.selectedQuestion.question_text_ja_phonetic_info);
     $(GROBAL.answer_select.value.answer_select_block).append(
-      '<div class="answer_top_question_text">' +
-      '<table id="answer_question_text_table" class="select_table_qes">' +
-      '<tr>' +
-      '<td>' + 
-      '<div class="left_table_img">' +
-      '<img id="question_top_img" src="">' + 
-      '</div>' +
-      '<div class="right_table_text">' +
-        text_ja +
-      '</div>' +
-      '</td>' +
-      '</tr>' +
-      '</table>' +
-      '</div>' +
-      '<div class="answer_top_role">' +
-      '<img id="answer_top_img" src="">' +
-      '</div>' +
-      '<div class="answer_select_desc">' +
-      '<p id="answer_select_up">' +
+      '<div class="theme_wrapper">' +
+      '<p class="day_part">' + 'DAY' +
       '</p>' +
-      '<p id="answer_select_down">' +
+      '<p id="current_day_answer">' +
       '</p>' +
+      '<div class="current_day_line">' +
+      '</div>' +
+      '<p id="theme_text_answer">' +
+      '</p>' +
+      '<div class="theme_img"><img id="theme_role_answer"></div>' +
+      '<div class="theme_bottom_text"><p id="theme_bottom_text_answer"></p></div>' +
+      '<div class="border_part">' +
+      '</div>' +
+      '</div>' +
       '<div id="select_table_box_ans">' +
       '<table id="answer_select_table" class="select_table_detail">' +
       '</table>' +
       '</div>' +
       '</div>'
     );
-    this.common.setRoleImage(this.common.leftImg, 3, GROBAL.answer_select.value.question_top_img);
+    document.getElementById("current_day_answer").innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    document.getElementById("theme_text_answer").innerHTML = text_ja;
+    this.common.setRoleImage(this.common.rightImg, 2, "#theme_role_answer");
+    document.getElementById("theme_bottom_text_answer").innerHTML = "<ruby>返事<rt>へんじ</rt></ruby>をしてみましょう";
+    //this.common.setRoleImage(this.common.leftImg, 3, GROBAL.answer_select.value.question_top_img);
   }
 
   /**
   * 画像と文言を設定する
   */
+  /*
   setWhoAnswer () {
     this.common.setRoleImage(this.common.rightImg, 2, GROBAL.answer_select.value.answer_top_img);
     document.getElementById(GROBAL.answer_select.element.answer_select_up).innerHTML = GROBAL.answer_select.view.answer_select_up;
     document.getElementById(GROBAL.answer_select.element.answer_select_down).innerHTML = "<p class='question_mark'>?</p><p class='question_text'>" + GROBAL.answer_select.view.answer_select_down + "</p>";
   }
+  */
 
   /**
   * 回答選択テーブル作成

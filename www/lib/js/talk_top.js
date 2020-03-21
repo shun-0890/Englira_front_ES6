@@ -7,19 +7,60 @@ class TalkTop {
     this.common = common;
     this.question_detail = question_detail;
   }
+
+  /**
+  * t_current_dayオブジェクト取得処理
+  */
+  getCurrentDay () {
+    let that = this;
+    //common_var.this_db_request = indexedDB.open(GROBAL.common.value.db_name);
+    that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+
+    // オブジェクトへの接続が成功した場合
+    that.common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let tran   = db.transaction("t_current_day", "readwrite");
+      let store  = tran.objectStore("t_current_day");
+      tran.oncomplete = function () {
+        // 会話開始時
+        that.setBase();
+        that.common.changeParts(GROBAL.main.value.transition);
+        //that.common.changeParts(GROBAL.main.value.role_transition);
+        db.close();
+      }
+      let get_req = store.getAll();
+      get_req.onsuccess = function (e) {
+        that.common.currentDay = Number(e.target.result[0].current_day);
+      };
+    }
+    // オブジェクトへの接続が失敗した場合
+    that.common.dbRequest.onerror = function(e) {
+      return false;
+    };
+  }
  
   /**
   * 役割を設定する
   */
+  /*
   setWho() {
     this.setBase();
   }
+  */
 
   /**
    * 基本パーツ導入
    */
   setBase () {
     $(GROBAL.talk_top.element.talk_category_block).append(
+      '<p id="day_part">' + 'DAY' +
+      '</p>' +
+      '<p id="current_day">' +
+      '</p>' +
+      '<div id="current_day_line">' +
+      '</div>' +
+      '<div id="current_border_part">' +
+      '</div>' +
       '<p id="talk_top_down">' +
       '</p>' +
       '<div id="category_table_box">' +
@@ -29,8 +70,12 @@ class TalkTop {
     );
     this.common.leftImg = this.getParam(GROBAL.talk_top.value.left_img);
     this.common.rightImg = this.getParam(GROBAL.talk_top.value.right_img);
-    this.common.setRoleImage(this.common.leftImg, 2, GROBAL.talk_top.value.role_img);
+    //this.common.setRoleImage(this.common.leftImg, 2, GROBAL.talk_top.value.role_img);
+    // 20200320
+    document.getElementById("current_day").innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    /*
     document.getElementById(GROBAL.talk_top.element.talk_top_down).innerHTML = GROBAL.talk_top.view.talk_top_down;
+    */
     this.setCategory();
   }
 
@@ -56,6 +101,7 @@ class TalkTop {
           let class_name = "done";
           if (that.common.currentDay == day_number) {
             class_name = "current";
+            document.getElementById(GROBAL.talk_top.element.talk_top_down).innerHTML = rubyContent(that.common.categoryList[i].name, that.common.categoryList[i].name_phonetic, that.common.categoryList[i].name_phonetic_info);
           } else if (that.common.currentDay < day_number) {
             class_name = "future";
           }
@@ -129,15 +175,34 @@ class TalkTop {
   */
   setSentence(type) {
     $(GROBAL.question_detail.value.question_select_block).append(
-      '<p id="talk_select_down">' + 
+      '<div class="theme_wrapper">' +
+      '<p class="day_part">' + 'DAY' +
       '</p>' +
+      '<p id="current_day_question">' +
+      '</p>' +
+      '<div class="current_day_line">' +
+      '</div>' +
+      '<p id="theme_text_question">' +
+      '</p>' +
+      '<div class="theme_img"><img id="theme_role_question"></div>' +
+      '<div class="theme_bottom_text"><p id="theme_bottom_text_question"></div>' +
+      '</p>' +
+      '<div class="border_part">' +
+      '</div>' +
+      '</div>' +
       '<div id="select_table_box">' +
       '<table id="question_select_table" class="select_table">' +
       '</table>' +
       '</div>'
     );
+    document.getElementById("current_day_question").innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    document.getElementById("theme_text_question").innerHTML = rubyContent(this.common.categoryList[this.common.currentDay].name, this.common.categoryList[this.common.currentDay].name_phonetic, this.common.categoryList[this.common.currentDay].name_phonetic_info);
+    this.common.setRoleImage(this.common.leftImg, 2, "#theme_role_question");
+    document.getElementById("theme_bottom_text_question").innerHTML = "お<ruby>母<rt>かあ</rt></ruby>さんから話しかけましょう";
+    /*
     document.getElementById(GROBAL.talk_top.element.talk_select_down).innerHTML = GROBAL.talk_top.view.talk_select_down;
-    /*document.getElementById("talk_select_up").innerHTML = common_var.this_category_list[type - 1].name;*/
+    document.getElementById("talk_select_up").innerHTML = common_var.this_category_list[type - 1].name;
+    */
     this.setSelect(type);
   }
 
@@ -205,37 +270,6 @@ class TalkTop {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-
-  /**
-  * t_current_dayオブジェクト取得処理
-  */
-  getCurrentDay () {
-    let that = this;
-    //common_var.this_db_request = indexedDB.open(GROBAL.common.value.db_name);
-    that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
-
-    // オブジェクトへの接続が成功した場合
-    that.common.dbRequest.onsuccess = function (e) {
-      let db     = e.target.result;
-      let tran   = db.transaction("t_current_day", "readwrite");
-      let store  = tran.objectStore("t_current_day");
-      tran.oncomplete = function () {
-        // 会話開始時
-        that.setBase();
-        that.common.changeParts(GROBAL.main.value.transition);
-        that.common.changeParts(GROBAL.main.value.role_transition);
-        db.close();
-      }
-      let get_req = store.getAll();
-      get_req.onsuccess = function (e) {
-        that.common.currentDay = Number(e.target.result[0].current_day);
-      };
-    }
-    // オブジェクトへの接続が失敗した場合
-    that.common.dbRequest.onerror = function(e) {
-      return false;
-    };
   }
 
 }
