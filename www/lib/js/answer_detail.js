@@ -13,8 +13,13 @@ class AnswerDetail {
     this.common.answerType = mode;
     if (mode == GROBAL.answer_detail.value.mode) {
       // 空にする処理
-      this.common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_block);
-      this.common.hideParts(GROBAL.answer_select.value.transition_second);
+      //this.common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_block);
+      //this.common.hideParts(GROBAL.answer_select.value.transition_second);
+      // funami add
+      this.common.emptyParts(GROBAL.answer_select.value.answer_select_block);
+      this.common.hideParts(GROBAL.answer_select.value.transition_first);
+      this.common.emptyParts(".answer_detail_select_modal");
+      this.common.hideParts(".answer_detail_select_modal_transition");
       this.common.wordDetailId = type;
     } else {
       // 空にする処理
@@ -232,8 +237,6 @@ class AnswerDetail {
         }
       }
     });
-    $(GROBAL.answer_detail.element.listening_en_inner).css("background", "#fff8d6");
-    $(GROBAL.answer_detail.element.listening_en_inner).css("border-color", "#ffea8a");
     $(GROBAL.main.element.restart_button).on("click", {answer_detail:this}, function(e) {
       e.data.answer_detail.restartTalk();
     });

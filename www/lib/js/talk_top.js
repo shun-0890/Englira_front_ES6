@@ -63,6 +63,8 @@ class TalkTop {
       '</div>' +
       '<p id="talk_top_down">' +
       '</p>' +
+      '<div class="talk_top_wrapper"><p id="talk_top_down_desc">' +
+      '</p></div>' +
       '<div id="category_table_box">' +
       '<table id="category_table">' +
       '</table>' +
@@ -102,6 +104,7 @@ class TalkTop {
           if (that.common.currentDay == day_number) {
             class_name = "current";
             document.getElementById(GROBAL.talk_top.element.talk_top_down).innerHTML = rubyContent(that.common.categoryList[i].name, that.common.categoryList[i].name_phonetic, that.common.categoryList[i].name_phonetic_info);
+            document.getElementById("talk_top_down_desc").innerHTML = rubyContent(that.common.categoryList[i].description, that.common.categoryList[i].description_phonetic, that.common.categoryList[i].description_phonetic_info);
           } else if (that.common.currentDay < day_number) {
             class_name = "future";
           }

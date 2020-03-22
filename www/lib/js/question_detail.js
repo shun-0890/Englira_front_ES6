@@ -23,7 +23,6 @@ class QuestionDetail {
     this.setForQuestionDetail();
     // 表示パーツ変更
     this.common.changeParts(GROBAL.question_detail.value.transition);
-
   }
 
   /**

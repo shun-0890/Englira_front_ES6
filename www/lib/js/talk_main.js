@@ -51,9 +51,9 @@ $(function () {
         if (common.answerType == GROBAL.main.value.type) {
           answer_select.toAnswerSelect(common.answerId);
         } else {
-          answer_select.answerStart();
           common.currentNumber -= 1;
         }
+        answer_select.answerStart();
         break;
       case 6:
         common.emptyParts(GROBAL.answer_detail.value.one_point_block);
