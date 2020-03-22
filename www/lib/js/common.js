@@ -74,7 +74,9 @@ const GROBAL = {
       category_table_box : "#category_table_box",
       talk_select_down : "talk_select_down",
       question_select_table : "#question_select_table",
-      select_table_box : "#select_table_box"
+      select_table_box : "#select_table_box",
+      current_day : "current_day",
+      talk_top_down_desc : "talk_top_down_desc"
     },
     value : {
       left_img : "first",
@@ -89,12 +91,18 @@ const GROBAL = {
     }
   },
   question_detail : {
+    element : {
+      current_day_question : "current_day_question",
+      theme_text_question : "theme_text_question",
+      theme_bottom_text_question : "theme_bottom_text_question"
+    },
     value : {
       question_select_block : ".question_select_block",
       transition : ".question_transition",
       question_img : "#question_img",
       question_table_box : "#question_table_box",
-      question_table : "#question_table"
+      question_table : "#question_table",
+      theme_role_question : "#theme_role_question"
     },
     view : {
       voice : "<ruby>音声<rt>おんせい</rt></ruby>で<ruby>聴<rt>き</rt></ruby>く"
@@ -109,7 +117,10 @@ const GROBAL = {
       select_table_box_ans : "#select_table_box_ans",
       answer_detail_select : "answer_detail_select",
       answer_detail_select_word : "answer_detail_select_word",
-      select_word_table : "#select_word_table"
+      select_word_table : "#select_word_table",
+      current_day_answer : "current_day_answer",
+      theme_text_answer : "theme_text_answer",
+      theme_bottom_text_answer : "theme_bottom_text_answer"
     },
     value : {
       question_detail_block : ".question_detail_block",
@@ -118,7 +129,8 @@ const GROBAL = {
       answer_top_img : "#answer_top_img",
       answer_select_block : ".answer_select_block",
       transition_second : ".answer_detail_select_transition",
-      answer_select_detail_img : "#answer_select_detail_img"
+      answer_select_detail_img : "#answer_select_detail_img",
+      theme_role_answer : "#theme_role_answer"
     },
     view : {
       answer_select_up : "<ruby>返答<rt>へんとう</rt></ruby>をえらんでね！",
@@ -130,7 +142,10 @@ const GROBAL = {
     element : {
       one_point_top : "one_point_top",
       one_point_question_table_box : "#one_point_question_table_box",
-      listening_en_inner : ".listening_en_inner"
+      listening_en_inner : ".listening_en_inner",
+      modal_text_down_content : "modal_text_down_content",
+      current_day_one_point : "current_day_one_point",
+      theme_text_one_point : "theme_text_one_point"
     },
     value : {
       mode : "normal",
@@ -144,7 +159,11 @@ const GROBAL = {
       transition_second : ".one_point_transition",
       one_point_question_table : "#one_point_question_table",
       one_point_answer_table : "#one_point_answer_table",
-      table_type : "one_point"
+      table_type : "one_point",
+      answer_detail_select_modal_transition : ".answer_detail_select_modal_transition",
+      answer_detail_select_modal : ".answer_detail_select_modal",
+      select_modal_table : "#select_modal_table",
+      close_button : ".close_button"
     },
     view : {
       voice : "<ruby>音声<rt>おんせい</rt></ruby>で<ruby>聴<rt>き</rt></ruby>く",

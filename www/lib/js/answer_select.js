@@ -30,8 +30,6 @@ class AnswerSelect {
         that.common.hideParts(GROBAL.question_detail.value.transition);
         // 質問内容セット
         that.setQuestionText();
-        // 画像と文言セット
-        //that.setWhoAnswer();
         // 回答選択テーブル作成
         that.setAnswerTable();
         // 表示変更
@@ -67,23 +65,11 @@ class AnswerSelect {
       '</div>' +
       '</div>'
     );
-    document.getElementById("current_day_answer").innerHTML = this.common.currentDay.toString().padStart(2, '0');
-    document.getElementById("theme_text_answer").innerHTML = text_ja;
-    this.common.setRoleImage(this.common.rightImg, 2, "#theme_role_answer");
-    document.getElementById("theme_bottom_text_answer").innerHTML = "<ruby>返事<rt>へんじ</rt></ruby>をしてみましょう";
-    //this.common.setRoleImage(this.common.leftImg, 3, GROBAL.answer_select.value.question_top_img);
+    document.getElementById(GROBAL.answer_select.element.current_day_answer).innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    document.getElementById(GROBAL.answer_select.element.theme_text_answer).innerHTML = text_ja;
+    this.common.setRoleImage(this.common.rightImg, 2, GROBAL.answer_select.value.theme_role_answer);
+    document.getElementById(GROBAL.answer_select.element.theme_bottom_text_answer).innerHTML = "<ruby>返事<rt>へんじ</rt></ruby>をしてみましょう";
   }
-
-  /**
-  * 画像と文言を設定する
-  */
-  /*
-  setWhoAnswer () {
-    this.common.setRoleImage(this.common.rightImg, 2, GROBAL.answer_select.value.answer_top_img);
-    document.getElementById(GROBAL.answer_select.element.answer_select_up).innerHTML = GROBAL.answer_select.view.answer_select_up;
-    document.getElementById(GROBAL.answer_select.element.answer_select_down).innerHTML = "<p class='question_mark'>?</p><p class='question_text'>" + GROBAL.answer_select.view.answer_select_down + "</p>";
-  }
-  */
 
   /**
   * 回答選択テーブル作成
@@ -181,9 +167,6 @@ class AnswerSelect {
       if (item.answer_id == local_answer_id) return true;
     });
     this.common.wordId = target[0].word_id;
-    // 空にする処理
-    //this.common.emptyParts(GROBAL.answer_select.value.answer_select_block);
-    //this.common.hideParts(GROBAL.answer_select.value.transition_first);
     // 画像と文言セット
     // ルビ振り
     let text_front_ja = rubyContent(target[0].answer_text_front_ja, target[0].answer_text_front_ja_phonetic, target[0].answer_text_front_ja_phonetic_info);
@@ -192,23 +175,18 @@ class AnswerSelect {
     this.setForAnswer(text_front_ja, select_text, text_rear_ja);
     // 回答詳細テーブル作成
     this.setAnswerSelectDetailTable();
-    // パーツ表示
-    //this.common.changeParts(GROBAL.answer_select.value.transition_second);
-
-    // funami test 
-    this.common.changeParts(".answer_detail_select_modal_transition");
+    this.common.changeParts(GROBAL.answer_detail.value.answer_detail_select_modal_transition);
   }
 
   /**
   * 画像と文言セット
   */
   setForAnswer (front, text, rear) {
-    // funami test 
-    $(".answer_detail_select_modal").append(
+    $(GROBAL.answer_detail.value.answer_detail_select_modal).append(
       '<div class="close_button"><span></span></div>' +
       '<div class="answer_detail_modal_content">' +
       '<div class="modal_text_up">' +
-      '<p class="question_mark_text">???</p><p class="modal_text_inner">の中の</p><p class="modal_text_inner_down">言葉を選びましょう！</p>' +
+      '<p class="question_mark_text">???</p><p class="modal_text_inner">の<ruby>中<rt>なか</rt></ruby>の</p><p class="modal_text_inner_down"><ruby>言葉<rt>ことば</rt></ruby>を<ruby>選<rt>えら</rt></ruby>びましょう！</p>' +
       '</div>' +
       '<div class="modal_text_down">' +
       '<p id="modal_text_down_content"></p>' +
@@ -219,41 +197,8 @@ class AnswerSelect {
       '</div>' +
       '</div>'
     );
-    document.getElementById("modal_text_down_content").innerHTML = 
+    document.getElementById(GROBAL.answer_detail.element.modal_text_down_content).innerHTML = 
     "<p class='answer_front'>" + front + "</p>" + "<p class='question_mark_text'>" + text + "</p>" + "<p class='answer_rear'>" + rear + "</p>";
-
-/*
-    $(GROBAL.answer_detail.value.answer_detail_select_block).append(
-      '<div class="answer_detail_select_desc">' +
-      '<div class="answer_detail_select_role">' +
-      '<img id="answer_select_detail_img" src="">' +
-      '</div>' +
-      '<p id="answer_detail_select">' +
-      '</p>' +
-      '<div id="select_word_table_box">' +
-      '<table id="select_word_table_base">' +
-      '<tr>' +
-      '<td class="base_td">' +
-      '<div class="answer_detail_select_text">' +
-      '<p id="answer_detail_select_word">' +
-      '</p>' +
-      '</div>' +
-      '</td>' +
-      '</tr>' +
-      '<tr>' +
-      '<td class="base_td">' + 
-      '<table id="select_word_table">' +
-      '</table>' +
-      '</td>' +
-      '</tr>' +
-      '</table>' +
-      '</div>' +
-      '</div>'
-    );
-    this.common.setRoleImage(this.common.rightImg, 2, GROBAL.answer_select.value.answer_select_detail_img);
-    document.getElementById(GROBAL.answer_select.element.answer_detail_select).innerHTML = "<p class='question_mark'>?</p><p class='question_text'>" + GROBAL.answer_select.view.answer_detail_select + "</p>";
-    document.getElementById(GROBAL.answer_select.element.answer_detail_select_word).innerHTML = "<p class='answer_front'>" + front + "</p>" + "<p class='answer_mark'>" + text + "</p>" + "<p class='answer_rear'>" + rear + "</p>";
-    */
   }
 
   /**
@@ -275,53 +220,24 @@ class AnswerSelect {
         for (var i = 0; i < that.common.wordList.length; i++) {
           // ルビ振り
           let text_ja = rubyContent(that.common.wordList[i].word_detail_text_ja, that.common.wordList[i].word_detail_text_ja_phonetic, that.common.wordList[i].word_detail_text_ja_phonetic_info);
-          $("#select_modal_table").append(
+          $(GROBAL.answer_detail.value.select_modal_table).append(
             '<tr>' +
             '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + text_ja + '</td>' +
             '</tr>'
           );
         }
-        /*
-        for (var i = 0; i < that.common.wordList.length; i += 2) {
-          if (that.common.wordList[i + 1]) {
-            // ルビ振り
-            let text_ja_first = rubyContent(that.common.wordList[i].word_detail_text_ja, that.common.wordList[i].word_detail_text_ja_phonetic, that.common.wordList[i].word_detail_text_ja_phonetic_info);
-            let text_ja_next = rubyContent(that.common.wordList[i + 1].word_detail_text_ja, that.common.wordList[i + 1].word_detail_text_ja_phonetic, that.common.wordList[i + 1].word_detail_text_ja_phonetic_info);
-            $(GROBAL.answer_select.element.select_word_table).append(
-              '<tr>' +
-              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + text_ja_first + '</td>' +
-              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i + 1].word_detail_id + '">' + text_ja_next + '</td>' +
-              '</tr>'
-            );
-          } else {
-            // ルビ振り
-            let text_ja = rubyContent(that.common.wordList[i].word_detail_text_ja, that.common.wordList[i].word_detail_text_ja_phonetic, that.common.wordList[i].word_detail_text_ja_phonetic_info);
-            $(GROBAL.answer_select.element.select_word_table).append(
-              '<tr>' +
-              '<td class="select_word_button" word_detail_id="' + that.common.wordList[i].word_detail_id + '">' + text_ja + '</td>' +
-              '</tr>'
-            );
-          }
-        }
-        */
       }
     });
 
-    $("#select_modal_table").on("click", GROBAL.main.element.select_word_button,{answer_select:this}, function(e) {
+    $(GROBAL.answer_detail.value.select_modal_table).on("click", GROBAL.main.element.select_word_button,{answer_select:this}, function(e) {
       e.data.answer_select.answer_detail.toViewAnswerDetail($(this).attr(GROBAL.main.value.word_detail_id), "normal");
       e.data.answer_select.common.currentNumber += 1;
     });
-    $(".close_button").on("click", function() {
-      that.common.emptyParts(".answer_detail_select_modal");
-      that.common.hideParts(".answer_detail_select_modal_transition");
+    $(GROBAL.answer_detail.value.close_button).on("click", function() {
+      that.common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_modal);
+      that.common.hideParts(GROBAL.answer_detail.value.answer_detail_select_modal_transition);
       that.common.currentNumber -= 1;
     });
-/*
-    $(GROBAL.main.element.select_word_table).on("click", GROBAL.main.element.select_word_button,{answer_select:this}, function(e) {
-      e.data.answer_select.answer_detail.toViewAnswerDetail($(this).attr(GROBAL.main.value.word_detail_id), "normal");
-      e.data.answer_select.common.currentNumber += 1;
-    });
-*/
   }
 
 }

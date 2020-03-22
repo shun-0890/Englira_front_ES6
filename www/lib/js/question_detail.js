@@ -17,7 +17,6 @@ class QuestionDetail {
     this.common.emptyParts(GROBAL.question_detail.value.question_select_block);
     this.common.hideParts(GROBAL.talk_top.value.transition);
     this.common.hideParts(GROBAL.main.value.role_transition);
-    //$(GROBAL.talk_top.value.role_img).attr('src', "");
     this.common.questionId = this.question_id = type;
     // 中身セット
     this.setForQuestionDetail();

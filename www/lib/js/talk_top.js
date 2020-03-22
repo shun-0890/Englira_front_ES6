@@ -25,7 +25,6 @@ class TalkTop {
         // 会話開始時
         that.setBase();
         that.common.changeParts(GROBAL.main.value.transition);
-        //that.common.changeParts(GROBAL.main.value.role_transition);
         db.close();
       }
       let get_req = store.getAll();
@@ -38,15 +37,6 @@ class TalkTop {
       return false;
     };
   }
- 
-  /**
-  * 役割を設定する
-  */
-  /*
-  setWho() {
-    this.setBase();
-  }
-  */
 
   /**
    * 基本パーツ導入
@@ -72,12 +62,7 @@ class TalkTop {
     );
     this.common.leftImg = this.getParam(GROBAL.talk_top.value.left_img);
     this.common.rightImg = this.getParam(GROBAL.talk_top.value.right_img);
-    //this.common.setRoleImage(this.common.leftImg, 2, GROBAL.talk_top.value.role_img);
-    // 20200320
-    document.getElementById("current_day").innerHTML = this.common.currentDay.toString().padStart(2, '0');
-    /*
-    document.getElementById(GROBAL.talk_top.element.talk_top_down).innerHTML = GROBAL.talk_top.view.talk_top_down;
-    */
+    document.getElementById(GROBAL.talk_top.element.current_day).innerHTML = this.common.currentDay.toString().padStart(2, '0');
     this.setCategory();
   }
 
@@ -104,7 +89,7 @@ class TalkTop {
           if (that.common.currentDay == day_number) {
             class_name = "current";
             document.getElementById(GROBAL.talk_top.element.talk_top_down).innerHTML = rubyContent(that.common.categoryList[i].name, that.common.categoryList[i].name_phonetic, that.common.categoryList[i].name_phonetic_info);
-            document.getElementById("talk_top_down_desc").innerHTML = rubyContent(that.common.categoryList[i].description, that.common.categoryList[i].description_phonetic, that.common.categoryList[i].description_phonetic_info);
+            document.getElementById(GROBAL.talk_top.element.talk_top_down_desc).innerHTML = rubyContent(that.common.categoryList[i].description, that.common.categoryList[i].description_phonetic, that.common.categoryList[i].description_phonetic_info);
           } else if (that.common.currentDay < day_number) {
             class_name = "future";
           }
@@ -198,14 +183,10 @@ class TalkTop {
       '</table>' +
       '</div>'
     );
-    document.getElementById("current_day_question").innerHTML = this.common.currentDay.toString().padStart(2, '0');
-    document.getElementById("theme_text_question").innerHTML = rubyContent(this.common.categoryList[this.common.currentDay].name, this.common.categoryList[this.common.currentDay].name_phonetic, this.common.categoryList[this.common.currentDay].name_phonetic_info);
-    this.common.setRoleImage(this.common.leftImg, 2, "#theme_role_question");
-    document.getElementById("theme_bottom_text_question").innerHTML = "お<ruby>母<rt>かあ</rt></ruby>さんから話しかけましょう";
-    /*
-    document.getElementById(GROBAL.talk_top.element.talk_select_down).innerHTML = GROBAL.talk_top.view.talk_select_down;
-    document.getElementById("talk_select_up").innerHTML = common_var.this_category_list[type - 1].name;
-    */
+    document.getElementById(GROBAL.question_detail.element.current_day_question).innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    document.getElementById(GROBAL.question_detail.element.theme_text_question).innerHTML = rubyContent(this.common.categoryList[this.common.currentDay].name, this.common.categoryList[this.common.currentDay].name_phonetic, this.common.categoryList[this.common.currentDay].name_phonetic_info);
+    this.common.setRoleImage(this.common.leftImg, 2, GROBAL.question_detail.value.theme_role_question);
+    document.getElementById(GROBAL.question_detail.element.theme_bottom_text_question).innerHTML = "お<ruby>母<rt>かあ</rt></ruby>さんから話しかけましょう";
     this.setSelect(type);
   }
 

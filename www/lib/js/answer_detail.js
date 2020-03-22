@@ -12,14 +12,10 @@ class AnswerDetail {
   toViewAnswerDetail (type, mode) {
     this.common.answerType = mode;
     if (mode == GROBAL.answer_detail.value.mode) {
-      // 空にする処理
-      //this.common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_block);
-      //this.common.hideParts(GROBAL.answer_select.value.transition_second);
-      // funami add
       this.common.emptyParts(GROBAL.answer_select.value.answer_select_block);
       this.common.hideParts(GROBAL.answer_select.value.transition_first);
-      this.common.emptyParts(".answer_detail_select_modal");
-      this.common.hideParts(".answer_detail_select_modal_transition");
+      this.common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_modal);
+      this.common.hideParts(GROBAL.answer_detail.value.answer_detail_select_modal_transition);
       this.common.wordDetailId = type;
     } else {
       // 空にする処理
@@ -125,8 +121,6 @@ class AnswerDetail {
     this.common.hideParts(GROBAL.answer_detail.value.transition_first);
     // ワンポイント詳細セット
     this.setOnePointTable();
-    // 画像セット
-    //document.getElementById("restart_img").src="img/restart.png";
     // 表示パーツ変更
     this.common.changeParts(GROBAL.answer_detail.value.transition_second);
     // 学習履歴オブジェクト更新
@@ -165,8 +159,8 @@ class AnswerDetail {
       '</div>' +
       '</div>'
     ); 
-    document.getElementById("current_day_one_point").innerHTML = this.common.currentDay.toString().padStart(2, '0');
-    document.getElementById("theme_text_one_point").innerHTML = "ワンポイント";
+    document.getElementById(GROBAL.answer_detail.element.current_day_one_point).innerHTML = this.common.currentDay.toString().padStart(2, '0');
+    document.getElementById(GROBAL.answer_detail.element.theme_text_one_point).innerHTML = "ワンポイント";
     let local_question_id = this.common.questionId;
     let target_question = this.common.questionList.filter(function (item, index) {
       if (item.question_id == local_question_id) return true;
