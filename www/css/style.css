@@ -1,23 +1,21 @@
 /* 共通パーツ */
 html {
   background-image: url("../img/bg.jpg");
-  background-repeat: repeat;
-  /*background-color: azure;*/
+  height:100%; 
+  background-size: cover;
   /*font-family: 'arial', 'Avenir', 'Corbel', 'Osaka', 'sans-serif';*/
 }
 body {
-  /*background-color: azure;*/
   letter-spacing: 1px;
   font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
 }
 .footer {
   position: absolute;
-  top: 90%;
+  top: 95%;
   left: 0;
   width: 100%;
-  height: 10%;
-  /*background: #009efa;*/
-  background: linear-gradient(90deg, #0392e6, #87d3ff);
+  height: 5%;
+  background-image: url("../img/book_bg.jpg");
   text-align: center;
   vertical-align: middle;
   color: white;
@@ -173,9 +171,6 @@ body {
   margin: 0 auto;
   height: 60px;
   background: #ffe7c7;
-/*
-  background: linear-gradient(0deg, #ffcc8a, #ffe7c7);
-*/
   border: solid 1px;
   border-color: #ffcc8a;
 }
@@ -183,6 +178,25 @@ body {
   display: table-cell;
   text-align: center;
   vertical-align: middle;
+  padding-top: 15px;
+}
+.one_point_inner {
+  display: table;
+  text-align: center;
+  border-radius: 10px;
+  width: 95%;
+  font-weight: 700;
+  margin: 0 auto;
+  height: 60px;
+  background: #ffe7c7;
+  border: solid 1px;
+  border-color: #ffcc8a;
+}
+.one_point_inner p {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 10px;
 }
 .text_block_ja {
   display: table;
@@ -198,6 +212,7 @@ body {
   display: table-cell;
   text-align: left;
   padding-left: 10px;
+  padding-top: 10px;
   vertical-align: middle;
 }
 .text_block_en {
@@ -360,14 +375,37 @@ body {
   padding: 6px 0;
 }
 .back_button {
+  position: relative;
+  top: 0%;
+}
+.back_button img {
+  height: 45px;
+}
+.back_button p {
   position: absolute;
   top: 0%;
-  width: 20%;
-  height: 5%;
-  border-bottom-right-radius: 10px;
+  line-height: 1em;
   color: white;
-  background: linear-gradient(90deg, #0392e6, #87d3ff);
+  padding-left: 40px;
 }
+
+.top_back_button {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+}
+.top_back_button img {
+  height: 45px;
+}
+.top_back_button p {
+  position: absolute;
+  top: 0%;
+  line-height: 1em;
+  color: white;
+  padding-left: 25px;
+}
+
+
 .back_text {
   position: absolute;
   display: inline-block;
@@ -378,17 +416,26 @@ body {
   position: absolute;
   height: 60px;
   width: 60px;
+  /*
   border-radius: 30px;
   background: #ff7c01;
+  */
 }
 .sound_img {
   position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  /*
   height: 30px;
+  */
   display: table-cell;
+  /*
   padding-top: 15px;
   padding-left: 12px
+  */
 }
-#role_select_table:before,#question_table td:before,#answer_table td:before {
+#role_select_table:before,#question_table:before,#answer_table:before {
   content: "";
   position: absolute;
   top: 100%;
@@ -398,20 +445,20 @@ body {
   border-top: 20px solid white;
 }
 
-
 /* スタート画面 */
 .talk_start_block {
   position: absolute;
   top: 50%;
   left: 0;
   width: 100%;
+  height: 50%;
 }
 .role_select_block {
   position: absolute;
-  top: 10%;
+  top: 5%;
   left: 0;
   width: 100%;
-  height : 80%;
+  height : 85%;
 }
 .top_img {
   position: absolute;
@@ -423,27 +470,32 @@ body {
 .top_role {
   position: absolute;
   width: 100%;
-  top: 50%;
+  top: 30%;
+  height: 50%;
 }
 #top_left_mother {
   position: absolute;
-  width:25%;
-  left: 0%;
+  width: 20%;
+  left: 2%;
+  bottom: 0%;
 }
 #top_left_father {
   position: absolute;
-  width:25%;
-  left: 25%;
+  width: 20%;
+  left: 27%;
+  bottom: 0%
 }
 #top_right_boy {
   position: absolute;
-  width: 25%;
-  left: 50%;
+  height: 180px;
+  left: 52%;
+  bottom: 0%;
 }
 #top_right_girl {
   position: absolute;
-  width: 25%;
-  left: 75%;
+  height: 170px;
+  left: 72%;
+  bottom: 0%;
 }
 .how_to_img {
   margin: 0 auto;
@@ -457,7 +509,7 @@ body {
 }
 #how_to_englira {
   position: absolute;
-  top: 130px;
+  top: 30px;
   left: 0;
   text-align: center;
   width: 100%;
@@ -481,18 +533,88 @@ body {
   margin-top: 0;
   margin-bottom: 10px;
 }
-.top_next {
+
+.gear {
   position: absolute;
-  text-align: center;
-  width: 100%;
-  top: 50%;
+  top: 0;
+  right: 10%;
+  height: 55px;
 }
+
+.top_next {
+  /*position: absolute;*/
+  position: relative;
+  /*text-align: center;*/
+  width: 80%;
+  /*height: 30%;*/
+  top: 0%;
+}
+
+.top_next img {
+  /*width: 80%;*/
+  height: 55px;
+  padding-left: 40px;
+}
+
+.top_next p {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  color: white;
+  font-weight: bold; 
+  font-size: 1.3em;
+  font-family :Quicksand, sans-serif;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  margin:0;
+  padding:0;
+}
+
+.next_btn_wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.img_caption {
+  position: absolute;
+}
+
+.img_caption p {
+  text-align: center;
+}
+
 .role_next {
   position: absolute;
   text-align: center;
   width: 100%;
-  top: 80%;
+  top: 85%;
+  left: 0%;
 }
+.role_next_inner {
+  position: relative;
+  width: 100%;
+}
+
+.role_next_inner img {
+  width: 80%;
+}
+
+.role_next_inner p {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  color: white;
+  font-weight: bold; 
+  font-size: 1.2em;
+  font-family :Quicksand, sans-serif;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  margin:0;
+  padding:0;
+}
+
 .top_start_outer {
   position: absolute;
   text-align: center;
@@ -578,10 +700,10 @@ body {
 #role_select_table {
   position: absolute;
   top : 0;
-  left : 0;
+  left : 3%;
   border-collapse:separate;
   border-spacing: 5px 0;
-  width: 100%;
+  width: 94%;
   -webkit-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   -moz-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   -ms-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
@@ -611,7 +733,7 @@ body {
 .text_block_role .small {
   display: table-cell;
   text-align: ceter;
-  font-size: 17px;
+  font-size: 15px;
   padding-top: 15px;
   padding-left: 10px;
   vertical-align: middle;
@@ -832,7 +954,7 @@ body {
 }
 .question_detail_block {
   position: absolute;
-  top: 5%;
+  top: 10%;
   width: 100%;
   height: 85%;
 }
@@ -842,9 +964,9 @@ body {
 #question_table {
   border-collapse:separate;
   border-spacing: 5px 0;
-  width: 100%;
-}
-#question_table td {
+  width: 94%;
+  margin: 0 auto;
+  border-radius: 5px;
   text-align: center;
   padding: 18px 0;
   background-color: white;
@@ -854,15 +976,15 @@ body {
   -ms-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
 }
+
 #question_img {
-  padding-top: 40px;
-  padding-bottom: 10px;
-  max-height: 90px;
+  max-height: 120px;
 }
 .question_start {
   /*top: 65%;*/
   text-align: center;
-  padding-top: 10px;
+  padding-top: 40px;
+  line-height: 0;
   width: 100%;
 }
 #question_start_img {
@@ -1115,7 +1237,7 @@ body {
 }
 .answer_detail_block {
   position: absolute;
-  top: 5%;
+  top: 10%;
   width: 100%;
   height: 85%;
 }
@@ -1125,9 +1247,9 @@ body {
 #answer_table {
   border-collapse:separate;
   border-spacing: 5px 0px;
-  width: 100%;
-}
-#answer_table td {
+  width: 94%;
+  border-radius: 5px;
+  margin: 0 auto;
   text-align: center;
   padding: 18px 0;
   background-color: white;
@@ -1137,18 +1259,19 @@ body {
   -ms-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
 }
+
 .answer_detail_role {
   padding-top: 15px;
   width: 100%;
   text-align: center;
 }
 #answer_detail_img {
-  padding-top: 40px;
   max-height: 90px;
 }
 .one_point_start {
-  padding-top: 10px;
+  padding-top: 40px;
   text-align: center;
+  line-height: 0;
   width: 100%;
 }
 /* ワンポイント画面 */

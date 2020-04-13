@@ -5,21 +5,21 @@ $(function () {
   // インスタンス初期化
   let common = new CommonParts();
   let answer_detail = new AnswerDetail(common);
-  let answer_select = new AnswerSelect(common, answer_detail);
-  let question_detail = new QuestionDetail(common, answer_select);
-  let talk_top = new TalkTop(common, question_detail);
+  let answer_select = new AnswerSelect(common);
+  let question_detail = new QuestionDetail(common);
+  let talk_top = new TalkTop(common);
 
   // 現在の進捗状況を取得しそれに応じた画面表示 20200228
   let result = talk_top.getCurrentDay();
   if (result == false) {
-    answer_detail.restartTalk();
+    common.viewTop();
   }
   
   // 戻るボタンが押下された時の処理
   $(GROBAL.common.element.back_button).on("click", function() {
     switch (common.currentNumber) {
       case 0:
-        answer_detail.restartTalk();
+        common.viewTop();
         break;
       case 1:
         common.emptyParts(GROBAL.question_detail.value.question_select_block);
@@ -66,5 +66,9 @@ $(function () {
         break;
     }
     common.currentNumber -= 1;
+  });
+  // トップへボタンが押下された時の処理
+  $(GROBAL.common.element.top_back_button).on("click", function() {
+    window.location.href = 'index.html';
   });
 });

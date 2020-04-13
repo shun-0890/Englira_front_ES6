@@ -173,7 +173,8 @@ const GROBAL = {
   },
   common : {
     element : {
-      back_button : ".back_button"
+      back_button : ".back_button",
+      top_back_button : ".top_back_button",
     },
     value : {
       storage_base : "gs://englira-beta.appspot.com/",
@@ -201,7 +202,8 @@ const common_parts = {
   this_question_records: Symbol(),
   this_answer_records: Symbol(),
   this_db_request: Symbol(),
-  this_current_day: Symbol()
+  this_current_day: Symbol(),
+  this_day_id: Symbol()
 }
 
 class CommonParts {
@@ -222,6 +224,7 @@ class CommonParts {
     this[common_parts.this_answer_records] = "";
     this[common_parts.this_db_request] = "";
     this[common_parts.this_current_day] = 1;
+    this[common_parts.this_day_id] = "";
   }
 
   // setter・getter
@@ -344,6 +347,12 @@ class CommonParts {
     return this[common_parts.this_current_day];
   }
 
+  set dayId (value) {
+    this[common_parts.this_day_id] = value;
+  }
+  get dayId () {
+    return this[common_parts.this_day_id];
+  }
 
   /**
   * loading完了後のパーツを表示
@@ -413,7 +422,7 @@ class CommonParts {
           text_en_phonetic +
         ' ]</p></div>' +
         '<div class="listening_en_inner" selected_id="' + selected_id + '">' +
-        '<div class="sound_wrapper"><img class="sound_img" src="img/sound.png"></div>' +
+        '<div class="sound_wrapper"><img class="sound_img" src="img/sounds.png"></div>' +
         '<p>' + 
           detail_text + 
         '</p>' +
@@ -421,8 +430,6 @@ class CommonParts {
         '</tr>'
       );
     } else if (table_type == 'one_point') {
-      console.log("here");
-      console.log("role : " , role_name);
       $(table_name).append(
         '<tr>' +
         '<td class="normal_radius">' + 
@@ -435,7 +442,7 @@ class CommonParts {
         '</p></div><div class="text_block_en_phonetic"><p>[ ' + 
           text_en_phonetic +
         ' ]</p></div>' +
-        '<div class="listening_en_inner">' +
+        '<div class="one_point_inner">' +
         '<p>' + 
           detail_text + 
         '</p>' +
@@ -450,7 +457,6 @@ class CommonParts {
   * 役割画像セット
   */
   setRoleImage (type, number, id) {
-    console.log("id : ", id);
     let _value = "";
     switch (type) {
       case "mother" :
@@ -468,6 +474,14 @@ class CommonParts {
     }
     $(id).attr('src', _value);
   }
+
+  /**
+  * トップに戻る
+  */
+  viewTop () {
+    window.location.href = 'index.html';
+  }
+
 
   /**
   * 音声再生

@@ -1,11 +1,16 @@
 // This is a JavaScript file
 
-class AnswerSelect {
+class AnswerSelect extends AnswerDetail {
 
   // コンストラクタ
-  constructor (common, answer_detail) {
+  constructor (common) {
+    super(common);
     this.common = common;
-    this.answer_detail = answer_detail;
+  }
+
+  // オーバーライド
+  toViewAnswerDetail (type, mode) {
+    super.toViewAnswerDetail(type, mode);
   }
 
   /**
@@ -14,8 +19,8 @@ class AnswerSelect {
   answerStart() {
     // 対象の子質問情報を取得してからパーツ表示
     let that = this;
-    that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
-    that.common.dbRequest.onsuccess = function (e) {
+    that.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    that.dbRequest.onsuccess = function (e) {
       let db     = e.target.result;
       let child_key = that.common.talkingId + "_" + that.common.questionId;
       let child_records_tran    = db.transaction("t_child_records", "readwrite");
@@ -67,7 +72,7 @@ class AnswerSelect {
     );
     document.getElementById(GROBAL.answer_select.element.current_day_answer).innerHTML = this.common.currentDay.toString().padStart(2, '0');
     document.getElementById(GROBAL.answer_select.element.theme_text_answer).innerHTML = text_ja;
-    this.common.setRoleImage(this.common.rightImg, 2, GROBAL.answer_select.value.theme_role_answer);
+    this.common.setRoleImage(this.common.rightImg, 3, GROBAL.answer_select.value.theme_role_answer);
     document.getElementById(GROBAL.answer_select.element.theme_bottom_text_answer).innerHTML = "<ruby>返事<rt>へんじ</rt></ruby>をしてみましょう";
   }
 
@@ -151,7 +156,7 @@ class AnswerSelect {
       if (e.data.answer_select.common.answerType == GROBAL.main.value.type) {
         e.data.answer_select.toAnswerSelect($(this).attr(GROBAL.main.value.answer_id));
       } else {
-        e.data.answer_select.answer_detail.toViewAnswerDetail($(this).attr(GROBAL.main.value.answer_id), e.data.answer_select.common.answerType);
+        e.data.answer_select.toViewAnswerDetail($(this).attr(GROBAL.main.value.answer_id), e.data.answer_select.common.answerType);
         e.data.answer_select.common.currentNumber += 1;
       }
       e.data.answer_select.common.currentNumber += 1;
@@ -230,7 +235,7 @@ class AnswerSelect {
     });
 
     $(GROBAL.answer_detail.value.select_modal_table).on("click", GROBAL.main.element.select_word_button,{answer_select:this}, function(e) {
-      e.data.answer_select.answer_detail.toViewAnswerDetail($(this).attr(GROBAL.main.value.word_detail_id), "normal");
+      e.data.answer_select.toViewAnswerDetail($(this).attr(GROBAL.main.value.word_detail_id), "normal");
       e.data.answer_select.common.currentNumber += 1;
     });
     $(GROBAL.answer_detail.value.close_button).on("click", function() {

@@ -40,15 +40,11 @@ class AnswerDetail {
       '<div id="answer_table_box">' +
       '<table id="answer_table">' +
       '</table>' +
-      '<div class="answer_detail_role">' +
-      '<img id="answer_detail_img" src="">' +
-      '</div>' +
       '<div class="one_point_start">' +
-      '<div id="one_point_start_button" class="one_point_start_outer">' +
-      '<div class="one_point_start_inner">' +
-      'ワンポイント' +
-      '</div>' +
-      '<div class="one_point_start_inner_border"></div>' +
+      '<img id="answer_detail_img" src="">' +
+      '<div id="one_point_start_button" class="role_next_inner">' +
+      '<img src="img/next_btn.png">' +
+      '<p>ワンポイント</p>' +
       '</div>' +
       '</div>' +
       '</div>'
@@ -109,7 +105,7 @@ class AnswerDetail {
   * 画像系セット
   */
   setForAnswerDetail () {
-    this.common.setRoleImage(this.common.rightImg, 3, GROBAL.answer_detail.value.answer_detail_img);
+    this.common.setRoleImage(this.common.rightImg, 4, GROBAL.answer_detail.value.answer_detail_img);
   }
 
   /**
@@ -150,11 +146,9 @@ class AnswerDetail {
       '<table id="one_point_answer_table">' +
       '</table>' +
       '<div class="restart">' +
-      '<div id="restart_button" class="restart_outer">' +
-      '<div class="restart_inner">' +
-      'はじめからもう一度' +
-      '</div>' +
-      '<div class="restart_inner_border"></div>' +
+      '<div id="restart_button" class="role_next_inner">' +
+      '<img src="img/next_btn.png">' +
+      '<p><ruby>別<rt>べつ</rt></ruby>の<ruby>会話<rt>かいわ</rt></ruby>をする</p>' +
       '</div>' +
       '</div>' +
       '</div>'
@@ -358,9 +352,12 @@ class AnswerDetail {
   }
 
   /**
-  * トップに戻る
+  * 会話の最初に戻る
   */
   restartTalk() {
-    window.location.href = 'index.html';
+    this.common.emptyParts(GROBAL.answer_detail.value.one_point_block);
+    this.common.hideParts(GROBAL.answer_detail.value.transition_second);
+    this.common.currentNumber = 1;
+    this.toTalkSelect(this.common.dayId);
   }
 }

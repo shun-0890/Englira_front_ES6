@@ -217,7 +217,7 @@ class TopParts {
   * setTimeOut内処理
   */
   setTimeOutDetail() {
-    $(GROBAL.top.element.top_img).css("top", "2%");
+    $(GROBAL.top.element.top_img).css("top", "5%");
     $(GROBAL.top.element.top_img).css("left", "15%");
     $(GROBAL.top.element.top_img).css("width", "70%");
     CommonParts.viewDefaultParts();

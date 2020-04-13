@@ -1,11 +1,16 @@
 // This is a JavaScript file
 
-class TalkTop {
+class TalkTop extends QuestionDetail {
 
   // コンストラクタ
-  constructor (common, question_detail) {
+  constructor (common) {
+    super(common);
     this.common = common;
-    this.question_detail = question_detail;
+  }
+
+  // オーバーライド
+  toQuestionSelect (type) {
+    super.toQuestionSelect(type);
   }
 
   /**
@@ -123,6 +128,7 @@ class TalkTop {
     $(GROBAL.main.element.category_table).on("click", GROBAL.main.element.day_button, {talk_top:this} , function(e) {
       e.data.talk_top.toTalkSelect($(this).attr(GROBAL.main.value.day_id));
       e.data.talk_top.common.currentNumber += 1;
+      e.data.talk_top.common.dayId = $(this).attr(GROBAL.main.value.day_id);
     });
     
   }
@@ -185,7 +191,7 @@ class TalkTop {
     );
     document.getElementById(GROBAL.question_detail.element.current_day_question).innerHTML = this.common.currentDay.toString().padStart(2, '0');
     document.getElementById(GROBAL.question_detail.element.theme_text_question).innerHTML = rubyContent(this.common.categoryList[this.common.currentDay].name, this.common.categoryList[this.common.currentDay].name_phonetic, this.common.categoryList[this.common.currentDay].name_phonetic_info);
-    this.common.setRoleImage(this.common.leftImg, 2, GROBAL.question_detail.value.theme_role_question);
+    this.common.setRoleImage(this.common.leftImg, 3, GROBAL.question_detail.value.theme_role_question);
     document.getElementById(GROBAL.question_detail.element.theme_bottom_text_question).innerHTML = "お<ruby>母<rt>かあ</rt></ruby>さんから話しかけましょう";
     this.setSelect(type);
   }
@@ -238,7 +244,7 @@ class TalkTop {
       }
     });
     $(GROBAL.main.element.question_select_table).on("click", GROBAL.main.element.question_select_button,{talk_top:this}, function(e) {
-      e.data.talk_top.question_detail.toQuestionSelect($(this).attr(GROBAL.main.value.question_id));
+      e.data.talk_top.toQuestionSelect($(this).attr(GROBAL.main.value.question_id));
       e.data.talk_top.common.currentNumber += 1;
     });
   }

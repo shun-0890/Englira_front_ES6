@@ -1,11 +1,17 @@
 // This is a JavaScript file
 
-class QuestionDetail {
+class QuestionDetail extends AnswerSelect {
 
   // コンストラクタ
-  constructor (common, answer_select) {
+  constructor (common) {
+    super(common);
     this.common = common;
-    this.answer_select = answer_select;
+    //this.answer_select = answer_select;
+  }
+
+  // オーバーライド
+  answerStart() {
+    super.answerStart();
   }
 
   /**
@@ -34,16 +40,14 @@ class QuestionDetail {
       '</table>' +
       '<div class="question_start">' +
       '<img id="question_img" src="">' +
-      '<div id="answer_start_button" class="answer_start_outer">' +
-      '<div class="answer_start_inner">' +
-      '返答をする' +
-      '</div>' +
-      '<div class="answer_start_inner_border"></div>' +
+      '<div id="answer_start_button" class="role_next_inner">' +
+      '<img src="img/next_btn.png">' +
+      '<p><ruby>返答<rt>へんとう</rt></ruby>をする</p>' +
       '</div>' +
       '</div>' +
       '</div>'
     );
-    this.common.setRoleImage(this.common.leftImg, 3, GROBAL.question_detail.value.question_img);
+    this.common.setRoleImage(this.common.leftImg, 4, GROBAL.question_detail.value.question_img);
     this.setQuestionTable();
   }
 
@@ -68,7 +72,7 @@ class QuestionDetail {
     );
     // 回答スタートがクリックされた時
     $(GROBAL.question_detail.value.question_table_box).on("click",GROBAL.main.element.answer_start_button, {question_detail:this}, function(e) {
-      e.data.question_detail.answer_select.answerStart();
+      e.data.question_detail.answerStart();
       e.data.question_detail.common.currentNumber += 1;
     });
   }

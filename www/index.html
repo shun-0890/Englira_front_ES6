@@ -28,25 +28,20 @@
 
 <!-- スタート画面 -->
 <div class="talk_start_block top_transition">
-  <div class="top_next">
-    <div id="init_button" class="top_start_outer">
-      <div class="top_start_inner">はじめる</div>
-      <div class="top_start_inner_border"></div>
-    </div>
+  <img class="gear" src="img/gear.png">
+  <div id="init_button" class="top_next">
+    <img src="img/next_btn.png">
+    <p>はじめる</p>
   </div>
   <div id="how_to_area">
     <table id="how_to_englira">
       <tr>
         <td>
-          <img class="how_to_img" src="img/hatena.PNG">
-          <p><ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby></p>
-        </td>
-        <td>
-          <img class="how_to_img" src="img/englira_mark.PNG">
+          <img class="how_to_img" src="img/englira_mark.png">
           <p><ruby>Englira<rt>イングリラ</rt></ruby>とは</p>
         </td>
         <td>
-          <img class="how_to_img" src="img/donation.PNG">
+          <img class="how_to_img" src="img/donation.png">
           <p><ruby>寄付<rt>きふ</rt></ruby>のお<ruby>願<rt>ねが</rt></ruby>い</p>
         </td>  
       </tr>
@@ -79,17 +74,23 @@
     <img id="top_right_boy" class="top_right_img" role="boy" src="img/boy_1.png">
     <img id="top_right_girl" class="top_right_img" role="girl" src="img/girl_2.png">
   </div>
-  <div class="role_next">
+  <div id="talk_start_button" class="role_next">
+    <div class="role_next_inner">
+      <img src="img/next_btn.png">
+      <p>これで<ruby>OK<rt>おーけー</rt></ruby></p>
+    </div>
+    <!--
     <div id="talk_start_button" class="role_start_outer">
       <div class="role_start_inner">これで<ruby>OK<rt>おーけー</rt></ruby></div>
       <div class="role_start_inner_border"></div>
     </div>
+    -->
   </div>
 </div>
 
 </div>
 
-<div class="footer"><p>広告欄</p><div>
+<div class="footer"><p></p><div>
 
 <!-- firebase SDK -->
 <!-- The core Firebase JS SDK is always required and must be listed first -->
