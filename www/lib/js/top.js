@@ -17,7 +17,7 @@ $(function () {
   }
   */
 
-  // indexedDB初期化
+  // アプリ初期起動時にindexedDB初期化
   //common.deleteIndexedDB();
   common.initIndexedDB();
 
@@ -30,8 +30,28 @@ $(function () {
   )
 
   //console.log("cookie" , document.cookie);
-
   setTimeout(top.setTimeOutDetail, 1000);
+  /*
+  setTimeout(function () {
+    // 現在の役割情報をセット
+    common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    // オブジェクトへの接続が成功した場合
+    common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let tran   = db.transaction("t_current_pair", "readwrite");
+      let store  = tran.objectStore("t_current_pair");
+      tran.oncomplete = function () {
+        db.close();
+      }
+      let get_req = store.getAll();
+      get_req.onsuccess = function (e) {
+        console.log("pair result : " , e.target.result);
+        top.setCurrentRole(e.target.result[0].parent, e.target.result[0].child);
+      };
+    }
+  }, 1000);
+  */
+  //common.setCurrentRole(top.setCurrentRole);
 
   // 役割画像クリック時
   $(GROBAL.top.element.top_left_img).on("click", function() {
@@ -65,9 +85,55 @@ $(function () {
 
   // はじめるクリック時
   $(GROBAL.top.element.init_button).on("click", function() {
+    // 現在の役割情報をセット
+    common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    // オブジェクトへの接続が成功した場合
+    common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let tran   = db.transaction("t_current_pair", "readwrite");
+      let store  = tran.objectStore("t_current_pair");
+      tran.oncomplete = function () {
+        db.close();
+      }
+      let get_req = store.getAll();
+      get_req.onsuccess = function (e) {
+        console.log("pair result : " , e.target.result);
+        top.setCurrentRole(e.target.result[0].parent, e.target.result[0].child);
+        top.talkStart(e.target.result[0].parent, e.target.result[0].child);
+      };
+    }
+    // firebase analytics イベント
+    analytics.logEvent(
+      'page_view', {
+        key: 'talk start',
+        page_location: 'first',
+        page_path: 'top',
+        page_title: 'talk_start'
+    });
+  });
+  
+  // 設定ボタン押下時
+  $(GROBAL.top.element.set_role).on("click", function() {
     common.emptyParts(GROBAL.top.value.top_transition);
     common.emptyParts(GROBAL.top.value.loading);
     common.changeParts(GROBAL.top.value.role_transition);
+    // 現在の役割情報をセット
+    common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
+    // オブジェクトへの接続が成功した場合
+    common.dbRequest.onsuccess = function (e) {
+      let db     = e.target.result;
+      let tran   = db.transaction("t_current_pair", "readwrite");
+      let store  = tran.objectStore("t_current_pair");
+      tran.oncomplete = function () {
+        db.close();
+      }
+      let get_req = store.getAll();
+      get_req.onsuccess = function (e) {
+        console.log("pair result setting : " , e.target.result);
+        top.setCurrentRole(e.target.result[0].parent, e.target.result[0].child);
+        top.setDefaultRole(e.target.result[0].parent, e.target.result[0].child);
+      };
+    }
     // firebase analytics イベント
     analytics.logEvent(
       'page_view', {
@@ -80,7 +146,8 @@ $(function () {
 
   // スタートボタンクリック時
   $(GROBAL.top.element.start_button).on("click", function() {
-    top.talkStart();
+    common.setSelectedRole(top.leftImg, top.rightImg);
+    top.talkStart(top.leftImg, top.rightImg);
   });
 
   // realtime database テスト
@@ -207,10 +274,30 @@ class TopParts {
   }
 
   /**
+  * 役割の初期設定
+  */
+  setDefaultRole (parent, child) {
+      if (parent == GROBAL.top.value.mother) {
+        $(GROBAL.top.element.top_left_mother).attr('src', GROBAL.top.img.mother_1);
+        $(GROBAL.top.element.top_left_father).attr('src', GROBAL.top.img.father_2);
+      } else {
+        $(GROBAL.top.element.top_left_mother).attr('src', GROBAL.top.img.mother_2);
+        $(GROBAL.top.element.top_left_father).attr('src', GROBAL.top.img.father_1);
+      }
+      if (child == GROBAL.top.value.boy) {
+        $(GROBAL.top.element.top_right_boy).attr('src', GROBAL.top.img.boy_1);
+        $(GROBAL.top.element.top_right_girl).attr('src', GROBAL.top.img.girl_2);
+      } else {
+        $(GROBAL.top.element.top_right_boy).attr('src', GROBAL.top.img.boy_2);
+        $(GROBAL.top.element.top_right_girl).attr('src', GROBAL.top.img.girl_1);
+      }
+  }
+
+  /**
   * スタートボタンクリック時
   */
-  talkStart() {
-    window.location.href = 'talk_top.html?first=' + this.leftImg + '&second=' + this.rightImg;
+  talkStart(parent, child) {
+    window.location.href = 'talk_top.html?first=' + parent + '&second=' + child;
   }
 
   /**
@@ -221,6 +308,14 @@ class TopParts {
     $(GROBAL.top.element.top_img).css("left", "15%");
     $(GROBAL.top.element.top_img).css("width", "70%");
     CommonParts.viewDefaultParts();
+  }
+
+  /**
+  * 現在の役割をセットする
+  */
+  setCurrentRole (parent, child) {
+    this.leftImg = parent;
+    this.rightImg = child;
   }
 
 }

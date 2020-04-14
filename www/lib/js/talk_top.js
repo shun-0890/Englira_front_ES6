@@ -34,6 +34,7 @@ class TalkTop extends QuestionDetail {
       }
       let get_req = store.getAll();
       get_req.onsuccess = function (e) {
+        console.log("current_day : " , e.target.result);
         that.common.currentDay = Number(e.target.result[0].current_day);
       };
     }
@@ -192,7 +193,11 @@ class TalkTop extends QuestionDetail {
     document.getElementById(GROBAL.question_detail.element.current_day_question).innerHTML = this.common.currentDay.toString().padStart(2, '0');
     document.getElementById(GROBAL.question_detail.element.theme_text_question).innerHTML = rubyContent(this.common.categoryList[this.common.currentDay].name, this.common.categoryList[this.common.currentDay].name_phonetic, this.common.categoryList[this.common.currentDay].name_phonetic_info);
     this.common.setRoleImage(this.common.leftImg, 3, GROBAL.question_detail.value.theme_role_question);
-    document.getElementById(GROBAL.question_detail.element.theme_bottom_text_question).innerHTML = "お<ruby>母<rt>かあ</rt></ruby>さんから話しかけましょう";
+    if (this.common.leftImg == "mother") {
+      document.getElementById(GROBAL.question_detail.element.theme_bottom_text_question).innerHTML = GROBAL.talk_top.view.talk_mother;
+    } else {
+      document.getElementById(GROBAL.question_detail.element.theme_bottom_text_question).innerHTML = GROBAL.talk_top.view.talk_father;
+    }
     this.setSelect(type);
   }
 

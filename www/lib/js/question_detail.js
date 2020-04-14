@@ -6,7 +6,6 @@ class QuestionDetail extends AnswerSelect {
   constructor (common) {
     super(common);
     this.common = common;
-    //this.answer_select = answer_select;
   }
 
   // オーバーライド

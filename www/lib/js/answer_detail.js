@@ -307,12 +307,15 @@ class AnswerDetail {
 
       // 現在の日付データ更新
       if (that.common.talkingId == that.common.currentDay) {
+        console.log("current_day update : " , that.common.currentDay);
         let current_day_data = {
           id: 1,
           current_day: that.common.currentDay + 1
         }
         let put_current_day    = current_day_store.put(current_day_data);
         put_current_day.onsuccess = function () {
+          var now_current_day = current_day_store.getAll();
+          console.log("now current day : " , now_current_day);
           console.log("put current day success");
         }
       }
