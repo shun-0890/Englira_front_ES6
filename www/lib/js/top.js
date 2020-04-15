@@ -31,7 +31,7 @@ $(function () {
 
   //console.log("cookie" , document.cookie);
   setTimeout(top.setTimeOutDetail, 1000);
-  /*
+
   setTimeout(function () {
     // 現在の役割情報をセット
     common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
@@ -45,13 +45,16 @@ $(function () {
       }
       let get_req = store.getAll();
       get_req.onsuccess = function (e) {
-        console.log("pair result : " , e.target.result);
-        top.setCurrentRole(e.target.result[0].parent, e.target.result[0].child);
+        let dataRef = database.ref('/test/' + e.target.result[0].account);
+        dataRef.once("value")
+        .then(function(snapshot) {
+          top.currentId = snapshot.child("id").val();
+          top.leftImg = snapshot.child("parent").val();
+          top.rightImg = snapshot.child("child").val();
+        });
       };
     }
   }, 1000);
-  */
-  //common.setCurrentRole(top.setCurrentRole);
 
   // 役割画像クリック時
   $(GROBAL.top.element.top_left_img).on("click", function() {
@@ -85,31 +88,7 @@ $(function () {
 
   // はじめるクリック時
   $(GROBAL.top.element.init_button).on("click", function() {
-    // 現在の役割情報をセット
-    common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
-    // オブジェクトへの接続が成功した場合
-    common.dbRequest.onsuccess = function (e) {
-      let db     = e.target.result;
-      let tran   = db.transaction("t_current_pair", "readwrite");
-      let store  = tran.objectStore("t_current_pair");
-      tran.oncomplete = function () {
-        db.close();
-      }
-      let get_req = store.getAll();
-      get_req.onsuccess = function (e) {
-        console.log("pair result : " , e.target.result);
-        top.setCurrentRole(e.target.result[0].parent, e.target.result[0].child);
-        top.talkStart(e.target.result[0].parent, e.target.result[0].child);
-      };
-    }
-    // firebase analytics イベント
-    analytics.logEvent(
-      'page_view', {
-        key: 'talk start',
-        page_location: 'first',
-        page_path: 'top',
-        page_title: 'talk_start'
-    });
+    top.talkStart(top.leftImg,top.rightImg);
   });
   
   // 設定ボタン押下時
@@ -117,23 +96,8 @@ $(function () {
     common.emptyParts(GROBAL.top.value.top_transition);
     common.emptyParts(GROBAL.top.value.loading);
     common.changeParts(GROBAL.top.value.role_transition);
-    // 現在の役割情報をセット
-    common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
-    // オブジェクトへの接続が成功した場合
-    common.dbRequest.onsuccess = function (e) {
-      let db     = e.target.result;
-      let tran   = db.transaction("t_current_pair", "readwrite");
-      let store  = tran.objectStore("t_current_pair");
-      tran.oncomplete = function () {
-        db.close();
-      }
-      let get_req = store.getAll();
-      get_req.onsuccess = function (e) {
-        console.log("pair result setting : " , e.target.result);
-        top.setCurrentRole(e.target.result[0].parent, e.target.result[0].child);
-        top.setDefaultRole(e.target.result[0].parent, e.target.result[0].child);
-      };
-    }
+
+    top.setDefaultRole(top.leftImg, top.rightImg);
     // firebase analytics イベント
     analytics.logEvent(
       'page_view', {
@@ -146,12 +110,21 @@ $(function () {
 
   // スタートボタンクリック時
   $(GROBAL.top.element.start_button).on("click", function() {
-    common.setSelectedRole(top.leftImg, top.rightImg);
+    common.setSelectedRole(top.currentId, top.leftImg, top.rightImg);
     top.talkStart(top.leftImg, top.rightImg);
   });
 
   // realtime database テスト
+  /*
   let test = database.ref().child('test');
+  //console.log("realtime database test : " , test);
+  var dataRef = database.ref('/test/test1');
+  dataRef.once("value")
+  .then(function(snapshot) {
+    let test_value = snapshot.child("personal").val();
+    //console.log("personal : " , test_value);
+  });
+  */
 
   /*
   var postData = {
@@ -219,7 +192,8 @@ $(function () {
 // 変数群
 const top_values = {
   left_img: Symbol(),
-  right_img: Symbol()
+  right_img: Symbol(),
+  current_id: Symbol()
 };
 
 // クラス
@@ -228,6 +202,7 @@ class TopParts {
   constructor () {
     this[top_values.left_img] = GROBAL.top.value.mother;
     this[top_values.right_img] = GROBAL.top.value.boy;
+    this[top_values.current_id] = "";
   }
 
   set leftImg (value) {
@@ -244,6 +219,14 @@ class TopParts {
 
   get rightImg () {
     return this[top_values.right_img];
+  }
+
+  set currentId (value) {
+    this[top_values.current_id] = value;
+  }
+
+  get currentId () {
+    return this[top_values.current_id];
   }
 
   /**

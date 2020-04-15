@@ -182,7 +182,7 @@ const GROBAL = {
     value : {
       storage_base : "gs://englira-beta.appspot.com/",
       file_type : ".mp4",
-      db_name : "sampleDB10"
+      db_name : "sampleDB14"
     }
   }
 }
@@ -504,7 +504,6 @@ class CommonParts {
     this.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
     // オブジェクトの初期化
     this.dbRequest.onupgradeneeded = function (e) {
-      console.log("create db");
       let db = e.target.result;
       let current_pair_store = db.createObjectStore("t_current_pair", {
         keyPath : 'id'
@@ -538,22 +537,6 @@ class CommonParts {
         target_object.put(default_data);
       }
       putDefaultData(this);
-
-      let str = "abcdefghijklmnopqrstuvwxyz0123456789";
-      //桁数の定義
-      var len = 8;
- 
-      //ランダムな文字列の生成
-      var result = "";
-      for(var i=0;i<len;i++){
-        result += str.charAt(Math.floor(Math.random() * str.length));
-      }
-      let postData = {
-        id : result,
-        parent : "mother",
-        child : "boy"      
-      };
-      database.ref('test/test_id').set(postData);
     }
 
     function putDefaultData (that) {
@@ -564,12 +547,28 @@ class CommonParts {
         let current_pair_tran     = db.transaction("t_current_pair", "readwrite");
         let current_day_store     = current_day_tran.objectStore("t_current_day");
         let current_pair_store    = current_pair_tran.objectStore ("t_current_pair");
+        let str = "abcdefghijklmnopqrstuvwxyz0123456789";
+        //桁数の定義
+        var len = 8;
+ 
+        //ランダムな文字列の生成
+        var result = "";
+        for(var i=0;i<len;i++){
+          result += str.charAt(Math.floor(Math.random() * str.length));
+        }
+        let postData = {
+          id : result,
+          parent : "mother",
+          child : "boy"      
+        };
+        database.ref('test/' + result).set(postData);
         let default_data_day = {
           id : 1,
           current_day : 1
         }
         let default_data_pair = {
           id : 1,
+          account : result,
           parent : "mother",
           child : "boy"
         }
@@ -586,39 +585,20 @@ class CommonParts {
   }
 
   /**
-  * 現在の役割情報をセット
-  */
-  /*
-  setCurrentRole (callback) {
-    let that = this;
-    that.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
-    // オブジェクトへの接続が成功した場合
-    that.dbRequest.onsuccess = function (e) {
-      let db     = e.target.result;
-      let tran   = db.transaction("t_current_pair", "readwrite");
-      let store  = tran.objectStore("t_current_pair");
-      tran.oncomplete = function () {
-        //callback(that.leftImg, that.rightImg);
-        db.close();
-      }
-      let get_req = store.getAll();
-      get_req.onsuccess = function (e) {
-        console.log("current_pair : " , e.target.result);
-        that.leftImg = e.target.result[0].parent;
-        that.rightImg = e.target.result[0].child;
-        console.log("parent : " , e.target.result[0].parent);
-        callback(e.target.result[0].parent, that.rightImg);
-      };
-    }
-  }
-  */
-
-  /**
   * 選択後の役割情報をセット
   */
-  setSelectedRole (parent, child) {
+  setSelectedRole (id, parent, child) {
     console.log("parent : " , parent);
     console.log("child : " , child);
+    // realtime database の更新
+    let postData = {
+      id : id,
+      parent : parent,
+      child : child      
+    };
+    database.ref('test/' + id).set(postData);
+
+    // indexedDBの更新
     let that = this;
     that.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
     that.dbRequest.onsuccess = function (e) {
@@ -629,7 +609,7 @@ class CommonParts {
       // 役割ペア情報の更新
       let pair_data;
       pair_data = {
-        id: 1,
+        id: id,
         parent: parent,
         child: child
       }
