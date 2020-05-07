@@ -65,20 +65,25 @@ $(function () {
         action_detail: top.leftImg
     });
     //media.play({numberOfLoops: 0});
-    sounds.refFromURL("gs://englira-beta.appspot.com/1-1.m4a").getDownloadURL().then((url) => {
+    // 音再生サンプル
+    /*
+    sounds.refFromURL("gs://englira-beta.appspot.com/q_1.mp4").getDownloadURL().then((url) => {
       const sound = new Audio(url);
       sound.play();
     });
+    */
   });
   $(GROBAL.top.element.top_right_img).on("click", function() {
     top.changeRole(GROBAL.top.value.right, $(this).attr('role'));
     // firebase analytics イベント
+    /*
     analytics.logEvent(
       'screen_view', {
         key: 'test screen',
         app_name: "monaca",
         screen_name: "englira_top"
     });
+    */
     analytics.logEvent(
       'top_event', {
         action_type: 'right image',
@@ -88,6 +93,13 @@ $(function () {
 
   // はじめるクリック時
   $(GROBAL.top.element.init_button).on("click", function() {
+    // GA
+    analytics.logEvent(
+      'top', {
+        account: top.currentId,
+        parent: top.leftImg,
+        child: top.rightImg
+    });
     top.talkStart(top.leftImg,top.rightImg);
   });
   
@@ -110,8 +122,87 @@ $(function () {
 
   // スタートボタンクリック時
   $(GROBAL.top.element.start_button).on("click", function() {
+    // GA
+    analytics.logEvent(
+      'top', {
+        account: top.currentId,
+        parent: top.leftImg,
+        child: top.rightImg
+    });
     common.setSelectedRole(top.currentId, top.leftImg, top.rightImg);
     top.talkStart(top.leftImg, top.rightImg);
+  });
+
+  // イングリラについてボタン押下時
+  $(GROBAL.top.element.about_englira_button).on("click", function() {
+    // GA
+    analytics.logEvent(
+      'about', {
+        aboutPage : 'view'
+    });
+    common.emptyParts(GROBAL.top.value.top_transition);
+    common.emptyParts(GROBAL.top.value.loading);
+    common.changeParts(GROBAL.top.value.about_transition);
+    $('.englira_description').mCustomScrollbar({
+      mouseWheel: true,
+      theme: "dark-thin",
+      callbacks: {
+        onOverflowY: function() {
+          $('.englira_description').css("left", "5%");
+          $('.englira_description').css("width", "96%");
+          $('.mCSB_scrollTools .mCSB_draggerContainer').css("left", "-10px");
+        }
+      }
+    });
+    // トップへボタン押下時
+    $(GROBAL.common.element.top_back_button).on("click", function() {
+      common.viewTop();
+    });
+  });
+
+  // 友達に勧めるボタン押下時
+  $(GROBAL.top.element.share_englira_button).on("click", function() {
+    // GA
+    analytics.logEvent(
+      'share', {
+        aboutPage : 'view'
+    });
+    common.emptyParts(GROBAL.top.value.top_transition);
+    common.emptyParts(GROBAL.top.value.loading);
+    common.changeParts(GROBAL.top.value.share_transition);
+    // トップへボタン押下時
+    $(GROBAL.common.element.top_back_button).on("click", function() {
+      common.viewTop();
+    });
+  });
+
+  // おすすめの本リストボタン押下時
+  $(GROBAL.top.element.book_start).on("click", function() {
+    // GA
+    analytics.logEvent(
+      'book', {
+        aboutPage : 'view'
+    });
+    common.emptyParts(GROBAL.top.value.top_transition);
+    common.emptyParts(GROBAL.top.value.loading);
+    common.changeParts(GROBAL.top.value.book_transition);
+    
+    $('.englira_description_book').mCustomScrollbar({
+      mouseWheel: true,
+      theme: "dark-thin",
+      callbacks: {
+        onOverflowY: function() {
+          $('.englira_description_book').css("left", "5%");
+          $('.englira_description_book').css("width", "96%");
+          $('.mCSB_scrollTools .mCSB_draggerContainer').css("left", "-10px");
+        }
+      }
+    });
+    
+    // トップへボタン押下時
+    $(GROBAL.common.element.top_back_button).on("click", function() {
+      common.viewTop();
+    });
   });
 
   // realtime database テスト

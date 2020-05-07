@@ -12,12 +12,24 @@ class AnswerDetail {
   toViewAnswerDetail (type, mode) {
     this.common.answerType = mode;
     if (mode == GROBAL.answer_detail.value.mode) {
+      // GA
+      analytics.logEvent(
+        'child_select_detail', {
+          selectedAnswer: this.common.answerId + "_" + type
+        }
+      );
       this.common.emptyParts(GROBAL.answer_select.value.answer_select_block);
       this.common.hideParts(GROBAL.answer_select.value.transition_first);
       this.common.emptyParts(GROBAL.answer_detail.value.answer_detail_select_modal);
       this.common.hideParts(GROBAL.answer_detail.value.answer_detail_select_modal_transition);
       this.common.wordDetailId = type;
     } else {
+      // GA
+      analytics.logEvent(
+        'child_select', {
+          selectedAnswer: type
+        }
+      );
       // 空にする処理
       this.common.emptyParts(GROBAL.answer_detail.value.answer_select_block);
       this.common.hideParts(GROBAL.answer_select.value.transition_first);
@@ -36,6 +48,12 @@ class AnswerDetail {
   * 回答詳細文言セット
   */
   setAnswerDetailTable(mode) {
+    // GA
+    analytics.logEvent(
+      'child_answer', {
+        selectedAnswerDetail: "view"
+      }
+    );
     $(GROBAL.answer_detail.value.answer_detail_block).append(
       '<div id="answer_table_box">' +
       '<table id="answer_table">' +
@@ -127,6 +145,12 @@ class AnswerDetail {
   * ワンポイント詳細セット
   */
   setOnePointTable () {
+    // GA
+    analytics.logEvent(
+      'one_point', {
+        finishTalk: "view"
+      }
+    );
     $(GROBAL.answer_detail.value.one_point_block).append(
       '<div class="theme_wrapper_one_point">' +
       '<p class="day_part">' + 'DAY' +

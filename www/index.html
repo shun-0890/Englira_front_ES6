@@ -6,7 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <link rel="stylesheet" href="css/style.css">
+  <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
   <script src="lib/jquery/jquery-1.12.4.min.js"></script>
+  <script src="lib/vendor/jquery.mCustomScrollbar.min.js"></script>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v7.0"></script>
   <!--<script src="/../node_modules/monaca-lib/src/monaca.js"></script>-->
   <!--<script src="lib/jquery/jquery.js"></script>-->
   <!--<script src="lib/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
@@ -39,13 +42,13 @@
     <table id="how_to_englira">
       <tr>
         <td>
-          <img class="how_to_img" src="img/englira_mark.png">
+          <img id="about_englira_button" class="how_to_img" src="img/englira_mark.png">
           <p><ruby>Englira<rt>イングリラ</rt></ruby>とは</p>
         </td>
         <td>
-          <img class="how_to_img" src="img/donation.png">
-          <p><ruby>寄付<rt>きふ</rt></ruby>のお<ruby>願<rt>ねが</rt></ruby>い</p>
-        </td>  
+          <img id="share_englira_button" class="how_to_img" src="img/share.png">
+          <p><ruby>友達<rt>ともだち</rt></ruby>に<ruby>勧<rt>すす</rt></ruby>める</p>
+        </td>
       </tr>
     </table>
   </div>
@@ -81,13 +84,144 @@
       <img src="img/next_btn.png">
       <p>これで<ruby>OK<rt>おーけー</rt></ruby></p>
     </div>
-    <!--
-    <div id="talk_start_button" class="role_start_outer">
-      <div class="role_start_inner">これで<ruby>OK<rt>おーけー</rt></ruby></div>
-      <div class="role_start_inner_border"></div>
-    </div>
-    -->
   </div>
+</div>
+
+<!-- Engliraとはページ -->
+  <!-- トップに戻るボタン -->
+  <div class="top_back_button about_transition">
+    <img src="img/top_back.png">
+    <p>トップへ</p>
+  </div>
+<div class="about_englira_block about_transition">
+  <div class="englira_img">
+    <img src="img/about_englira.png">
+  </div>
+  <div class="englira_description_title">
+    <p>
+      Engliraとは？
+    </p>
+  </div>
+  <div class="englira_description">
+    <p>
+      <ruby>勉強<rt>べんきょう</rt></ruby>からではなく<br>
+      <ruby>体感<rt>たいかん</rt></ruby>することからはじまる<br>
+      <ruby>英会話学習<rt>えいかいわがくしゅう</rt></ruby>プログラムです。<br>
+      <ruby>楽<rt>たの</rt></ruby>しく<ruby>会話<rt>かいわ</rt></ruby>することで<br>
+      <ruby>英語<rt>えいご</rt></ruby>への<ruby>苦手意識<rt>にがていしき</rt></ruby>を<ruby>持<rt>も</rt></ruby>たない<br>
+      <ruby>学習導入<rt>がくしゅうどうにゅう</rt></ruby>ができるので<br>
+      はじめての<ruby>英語学習<rt>えいごがくしゅう</rt></ruby>に<ruby>最適<rt>さいてき</rt></ruby>
+    </p>
+  </div>
+  <!--
+  <div id="back_button_about" class="top_back">
+    <div class="top_back_inner">
+      <img src="img/next_btn.png">
+      <p>トップへ</p>
+    </div>
+  </div>
+  -->
+  <div id="about_border_part">
+  </div>
+  <img class="left_footer" src="img/tiger.png">
+  <img class="right_footer" src="img/raccoon.png">
+</div>
+
+<!-- 友達に勧めるページ -->
+  <!-- トップに戻るボタン -->
+  <div class="top_back_button share_transition">
+    <img src="img/top_back.png">
+    <p>トップへ</p>
+  </div>
+<div class="about_englira_block share_transition">
+  <div class="englira_img">
+    <img src="img/about_englira.png">
+  </div>
+  <div class="englira_description_title">
+    <p>
+      お友達にシェア！
+    </p>
+  </div>
+  <div class="englira_description_share">
+    <p>
+      お<ruby>友達<rt>ともだち</rt></ruby>にイングリラを<br>
+      ご<ruby>紹介<rt>しょうかい</rt></ruby>してください！<br>
+      よろしくお<ruby>願<rt>ねが</rt></ruby>いします！<br>
+    </p>
+  </div>
+  <div class="englira_share_area">
+    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fconsole.monaca.mobi%2Feditor%2F5d75e1fae78885e50137c497&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><img src="img/facebook.png"></a>
+    <a target="_blank" href="http://twitter.com/share?url=&text=親子で話す英会話学習アプリ&hashtags=englira,英会話"><img src="img/twitter.png"></a>
+    <a target="_blank" href="http://line.me/R/msg/text/?親子で話す英会話学習アプリ⇒イングリラのURL"><img src="img/line.png"></a>
+  </div>
+  <div id="about_border_part">
+  </div>
+  <img class="left_footer" src="img/tiger.png">
+  <img class="right_footer" src="img/raccoon.png">
+</div>
+
+<!-- おすすめの本リストページ -->
+  <!-- トップに戻るボタン -->
+  <div class="top_back_button book_transition">
+    <img src="img/top_back.png">
+    <p>トップへ</p>
+  </div>
+<div class="about_englira_block book_transition">
+  <div class="englira_img">
+    <img src="img/family.png">
+  </div>
+  <div class="englira_description_book">
+    <p class="title">
+      合わせて学びたい<br>
+      おすすめの本
+    </p>
+    <p class="description">
+      イングリラは「<ruby>英語<rt>えいご</rt></ruby>を<ruby>好<rt>す</rt></ruby>きになる！」<br>
+      ことを<ruby>目的<rt>もくてき</rt></ruby>に<ruby>作<rt>つく</rt></ruby>られています。<br>
+      <ruby>正<rt>ただ</rt></ruby>しい<ruby>発音<rt>はつおん</rt></ruby>や<ruby>文法<rt>ぶんぽう</rt></ruby>や<br>
+      <ruby>親子間以外<rt>おやこかんいがい</rt></ruby>での<ruby>会話<rt>かいわ</rt></ruby>などを<br>
+      <ruby>学<rt>まな</rt></ruby>ぶためにも<ruby>他</rt>ほか<rt></ruby>の<ruby>教材<rt>きょうざい</rt></ruby>は<br>
+      <ruby>必須<rt>ひっす</rt></ruby>となってきます。<br>
+    </p>
+    <div class="book_recomend">
+      <img class="sample" src="img/book_sample.png">
+      <div class="book_description">
+        <p class="bolder">
+          本のタイトル
+        </p>
+        <p class="thin">
+          本の説明ですですああああああああああああいいいいいいいい
+        </p>
+      </div>
+      <div class="book_recomend_wrapper">
+        <div class="book_recomend_inner">
+          <img class="recomend_arrow" src="img/recomend_arrow.png">
+          <p>amazonで購入</p>
+        </div>
+      </div>
+    </div>
+    <div class="book_recomend">
+      <img class="sample" src="img/book_sample.png">
+      <div class="book_description">
+        <p class="bolder">
+          本のタイトル２
+        </p>
+        <p class="thin">
+          本の説明ですですああ２２２
+        </p>
+      </div>
+      <div class="book_recomend_wrapper">
+        <div class="book_recomend_inner">
+          <img class="recomend_arrow" src="img/recomend_arrow.png">
+          <p>amazonで購入</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="about_border_part">
+  </div>
+  <img class="left_footer" src="img/tiger.png">
+  <img class="right_footer" src="img/raccoon.png">
 </div>
 
 </div>
@@ -95,7 +229,7 @@
 <div class="footer">
   <img class="book_img" src="img/book_icon.png">
   <p>英会話のおすすめ本リスト</p>
-  <img class="book_arrow_img" src="img/book_arrow.png">
+  <img id="book_start" class="book_arrow_img" src="img/book_arrow.png">
 <div>
 
 <!-- firebase SDK -->

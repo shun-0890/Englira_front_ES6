@@ -8,6 +8,29 @@ html {
 body {
   letter-spacing: 1px;
   font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+  color: rgb(63, 63, 63);
+}
+/*
+[data-ruby] {
+    position: relative;
+}
+[data-ruby]::before {
+    content: attr(data-ruby);
+    position: absolute;
+    top: -1em;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-size: 0.05em;
+    width: 200%;
+}
+rt {
+    display: none;
+}
+*/
+rt {
+  font-size: 0.5em;
+  margin-bottom: 10px;
 }
 .footer {
   position: absolute;
@@ -65,6 +88,24 @@ body {
   animation-iteration-count: 1;
 }
 .role_transition {
+  display: none;
+  animation-name: fadein;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+.about_transition {
+  display: none;
+  animation-name: fadein;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+.share_transition {
+  display: none;
+  animation-name: fadein;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+.book_transition {
   display: none;
   animation-name: fadein;
   animation-duration: 2s;
@@ -550,7 +591,7 @@ body {
   filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
 }
 #how_to_englira td p {
-  margin-top: 0;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 
@@ -573,6 +614,22 @@ body {
   top: -50%;
   right: 10%;
   height: 120px;
+}
+
+.left_footer {
+  position: absolute;
+  bottom: -2%;
+  left: -5%;
+  height: 70px;
+  z-index: 10;
+}
+
+.right_footer {
+  position: absolute;
+  bottom: -2%;
+  right: -5%;
+  height: 70px;
+  z-index: 10;
 }
 
 .top_next {
@@ -773,6 +830,201 @@ body {
   vertical-align: middle;
   font-weight: 700;
 }
+.about_englira_block {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 90%;
+  height: 82%;
+  background-color: white;
+  float: left;
+  border-radius: 5px;
+  -webkit-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
+  -moz-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
+  -ms-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
+  filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
+}
+.about_englira_block:before {
+  content: "";
+  position: absolute;
+  top: -32px;
+  left: 33%;
+  width: 34%;
+  height: 35px;
+  background-color: white;
+  /*
+  border-radius: 55px 55px 0 0;
+  */
+  border-top-left-radius: 140px 90px;
+  border-top-right-radius: 140px 90px;
+  border-top: 1.5px solid #ffb168;
+  border-right: 1.5px solid #ffb168;
+  border-left: 1.5px solid #ffb168;
+  z-index: 99;
+}
+.about_englira_block:after {
+  content: "";
+  position: absolute;
+  top: -34px;
+  left: 32.5%;
+  width: 36%;
+  height: 35px;
+  background-color: white;
+  /*
+  border-radius: 56px 56px 0 0;
+  */
+  border-top-left-radius: 140px 90px;
+  border-top-right-radius: 140px 90px;
+  z-index: 98;
+}
+#about_border_part {
+  position: absolute;
+  top: 3px;
+  left: 1.2%;
+  height: 98%;
+  width: 96.5%;
+  border: 1.5px solid #ffb168;
+  border-radius: 5px;
+  z-index: 5;
+}
+.englira_img {
+  position: absolute;
+  height: 33%;
+  width: 100%;
+  top: 2%;
+  text-align: center;
+  margin: 0 auto;
+}
+.englira_img img {
+  max-height: 100%;
+}
+.englira_description_title {
+  position: absolute;
+  height: 10%;
+  width: 100%;
+  top: 35%;
+  text-align: center;
+  margin: 0 auto;
+}
+.englira_description_title p {
+  font-weight: bold;
+  font-size: 25px;
+  margin: 10px;
+}
+.englira_description {
+  position: absolute;
+  height: 45%;
+  width: 100%;
+  top: 45%;
+  text-align: center;
+  margin: 0 auto;
+  z-index: 6;
+}
+.englira_description_share {
+  position: absolute;
+  height: 30%;
+  width: 100%;
+  top: 45%;
+  text-align: center;
+  margin: 0 auto;
+  z-index: 6;
+}
+.englira_description_book {
+  position: absolute;
+  height: 60%;
+  width: 100%;
+  top: 35%;
+  text-align: center;
+  margin: 0 auto;
+  z-index: 6;
+}
+.englira_description_book .title {
+  font-weight: bold;
+  font-size: 25px;
+  margin: 10px;
+}
+.englira_description p,.englira_description_share p,.englira_description_book .description {
+  letter-spacing: 1.5px;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 2em;
+  margin: 0px;
+}
+.book_recomend {
+  width: 90%;
+  height: 240px;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  margin-top: 15px;
+}
+.book_recomend .sample {
+  display: inline-block;
+  padding-top: 10px;
+  width: 40%;
+  vertical-align: top;
+}
+.book_recomend .book_description {
+  display: inline-block;
+  padding-top: 10px;
+  width: 50%;
+  vertical-align: top;
+}
+.book_recomend .book_description .bolder {
+  font-weight: bold;
+}
+.book_recomend .book_description .bolder {
+  font-weight: bold;
+}
+.book_recomend .recomend_arrow {
+  padding-top: 10px;
+  height: 50px;
+}
+.englira_share_area {
+  position: absolute;
+  height: 10%;
+  width: 90%;
+  top: 75%;
+  left: 5%;
+  text-align: center;
+  margin: 0 auto;
+  z-index: 6;
+}
+.englira_share_area img {
+  max-height: 60px;
+}
+.top_back,.book_recomend_wrapper {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  /*top: 87%;*/
+  left: 0%;
+  z-index: 6;
+}
+.top_back_inner,.book_recomend_inner {
+  position: relative;
+  width: 100%;
+}
+.top_back img {
+  width: 70%;
+  height: 55px;
+}
+.book_recomend_wrapper img {
+  height: 55px;
+}
+.top_back p,.book_recomend_inner p {
+  position: absolute;
+  top: 55%;
+  left: 45%;
+  color: white;
+  font-weight: bold; 
+  font-size: 1.3em;
+  font-family :Quicksand, sans-serif;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  margin:0;
+  padding:0;
+}
 /* タイトル画面 */
 .talk_category_block {
   position: absolute;
@@ -783,6 +1035,7 @@ body {
   background-color: white;
   float: left;
   border-radius: 5px;
+  
   -webkit-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   -moz-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   -ms-filter:drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));

@@ -24,7 +24,12 @@ const GROBAL = {
       top_right_boy : "#top_right_boy",
       init_button : "#init_button",
       set_role : "#set_role",
-      start_button : "#talk_start_button"
+      start_button : "#talk_start_button",
+      about_englira_button : "#about_englira_button",
+      share_englira_button : "#share_englira_button",
+      back_button_about : "#back_button_about",
+      back_button_share : "#back_button_share",
+      book_start : "#book_start"
     },
     value : {
       mother : "mother",
@@ -35,7 +40,10 @@ const GROBAL = {
       right : "right",
       loading : ".loading_page",
       top_transition : ".top_transition",
-      role_transition : ".role_transition"
+      role_transition : ".role_transition",
+      about_transition : ".about_transition",
+      share_transition : ".share_transition",
+      book_transition : ".book_transition"
     }
   },
   main : {
@@ -432,6 +440,18 @@ class CommonParts {
         '</div></td>' + 
         '</tr>'
       );
+      $(table_name).on("click",GROBAL.main.element.start_voice, function() {
+            // GA
+        analytics.logEvent(
+          'voice', {
+            playVoice: selected_id
+          }
+        );
+        sounds.refFromURL("gs://englira-beta.appspot.com/" + selected_id + ".mp4").getDownloadURL().then((url) => {
+          const sound = new Audio(url);
+          sound.play();
+        });
+      });
     } else if (table_type == 'one_point') {
       $(table_name).append(
         '<tr>' +

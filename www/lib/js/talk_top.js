@@ -140,6 +140,12 @@ class TalkTop extends QuestionDetail {
   toTalkSelect(type) {
     let that = this;
     if (type <= that.common.currentDay) {
+      // GA
+      analytics.logEvent(
+        'day', {
+          selectedDay: type
+        }
+      );
       // 対象の親質問情報を取得してからパーツ表示
       that.common.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
       that.common.dbRequest.onsuccess = function (e) {

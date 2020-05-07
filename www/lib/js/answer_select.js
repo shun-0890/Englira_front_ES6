@@ -17,6 +17,12 @@ class AnswerSelect extends AnswerDetail {
   * 質問内容選択時
   */
   answerStart() {
+    // GA
+    analytics.logEvent(
+      'parent_detail', {
+        selectedQuestionDetail: "view"
+      }
+    );
     // 対象の子質問情報を取得してからパーツ表示
     let that = this;
     that.dbRequest = indexedDB.open(GROBAL.common.value.db_name);
@@ -167,6 +173,12 @@ class AnswerSelect extends AnswerDetail {
   * 回答詳細テーブル作成
   */
   toAnswerSelect (type) {
+    // GA
+    analytics.logEvent(
+      'child_select', {
+        selectedAnswer: type
+      }
+    );
     let local_answer_id = this.common.answerId = type;
     let target = this.common.answerList.filter(function (item, index) {
       if (item.answer_id == local_answer_id) return true;

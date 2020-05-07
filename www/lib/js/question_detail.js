@@ -17,6 +17,12 @@ class QuestionDetail extends AnswerSelect {
   * 質問内容選択時
   */
   toQuestionSelect(type) {
+    // GA
+    analytics.logEvent(
+      'parent_select', {
+        selectedQuestion: type
+      }
+    );
 
     // 空にする処理
     this.common.emptyParts(GROBAL.question_detail.value.question_select_block);
